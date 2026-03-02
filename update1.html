@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accounts Module – Fixes Review + Status</title>
+  <style>
+    :root{
+      --text:#111827;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --bg:#ffffff;
+      --card:#f9fafb;
+      --accent:#2563eb;
+
+      --ok:#065f46;
+      --okbg:#ecfdf5;
+      --okbd:#a7f3d0;
+
+      --warn:#92400e;
+      --warnbg:#fffbeb;
+      --warnbd:#fcd34d;
+
+      --info:#1e40af;
+      --infobg:#eff6ff;
+      --infobd:#bfdbfe;
+    }
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.5;
+    }
+    .container{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 52px;
+    }
+    header{
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 22px;
+    }
+    h1{
+      font-size: 22px;
+      margin: 0 0 6px;
+      letter-spacing: -0.2px;
+    }
+    .subtitle{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    section{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+      margin: 14px 0;
+    }
+    h2{
+      font-size: 16px;
+      margin: 0 0 10px;
+      display:flex;
+      gap:10px;
+      align-items: baseline;
+    }
+    .num{
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 2.2ch;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      border-radius:999px;
+      padding:6px 10px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 4px 6px 0 0;
+      white-space: nowrap;
+    }
+    .pill strong{ color: var(--text); }
+
+    .badge{
+      display:inline-block;
+      font-weight:700;
+      font-size:12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .b-ok{ color: var(--ok); background: var(--okbg); border-color: var(--okbd); }
+    .b-warn{ color: var(--warn); background: var(--warnbg); border-color: var(--warnbd); }
+    .b-info{ color: var(--info); background: var(--infobg); border-color: var(--infobd); }
+
+    .callout{
+      border-radius: 12px;
+      padding: 12px 12px;
+      border: 1px solid var(--infobd);
+      background: var(--infobg);
+      margin-top: 12px;
+    }
+    .callout h3{
+      margin:0 0 6px;
+      font-size: 13px;
+      color: var(--info);
+    }
+    .callout p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    ul{ margin: 10px 0 0; padding-left: 18px; }
+    li{ margin: 6px 0; }
+
+    .table{
+      width:100%;
+      border-collapse: collapse;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      overflow:hidden;
+      margin-top: 12px;
+    }
+    .table th, .table td{
+      text-align:left;
+      padding:10px 10px;
+      border-bottom:1px solid var(--border);
+      font-size: 13px;
+      vertical-align: top;
+    }
+    .table th{
+      background:#f3f4f6;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .2px;
+      text-transform: uppercase;
+    }
+    .table tr:last-child td{ border-bottom:none; }
+
+    .note{
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    footer{
+      margin-top: 18px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+    .checklist{
+      display:grid;
+      gap: 8px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .checklist li{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .label{
+      font-weight: 700;
+      color: var(--text);
+    }
+    .muted{ color: var(--muted); }
+    .k{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      color: var(--text);
+      background:#f3f4f6;
+      border:1px solid var(--border);
+      padding:2px 6px;
+      border-radius: 8px;
+    }
+    .topnav{
+      display:flex;
+      justify-content:flex-end;
+      margin-bottom: 14px;
+    }
+    .next-btn{
+      display:inline-block;
+      text-decoration:none;
+      background: var(--accent);
+      color:#fff;
+      border:1px solid #1d4ed8;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .next-btn:hover{
+      background:#1d4ed8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="topnav">
+      <a class="next-btn" href="/">Back</a>
+    </div>
+    <header>
+      <h1>Accounts Module – Fixes Review + Status</h1>
+      <p class="subtitle">
+        Consolidated review of the required Accounts fixes (terminology, hierarchy, dropdown cleanup, layout, and dependencies).
+      </p>
+
+      <div>
+        <span class="pill"><strong>Module:</strong> Accounts</span>
+        <span class="pill"><strong>Status:</strong> All done except module-level dependency structure (#6)</span>
+        <span class="pill"><strong>Pending item:</strong> #6 “Dependencies like Contacts”</span>
+      </div>
+    </header>
+
+    <section>
+      <h2><span class="num">1</span> Overall Status Summary</h2>
+      <ul>
+        <li><strong>Done:</strong> #1 Parent/Child naming standardization, #3 dropdown overwrite cleanup, #4 layout re-org, #5 hierarchy relationship logic</li>
+        <li><strong>Done (as per your note):</strong> #2 Account Type-based fields are implemented</li>
+        <li><strong>Pending / clarification needed:</strong> <span class="k">#6</span> module-level dependency rules (like Contacts)</li>
+      </ul>
+
+      <div class="callout">
+        <h3>What’s missing (high-level)</h3>
+        <p>
+          Even if type-specific sections exist in the layout, Julie’s requirement is that dependencies must be managed at the
+          <strong>module level</strong> (rules engine), not only by grouping/section visibility.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="num">2</span> Fix-by-Fix Review (with Status)</h2>
+
+      <table class="table" aria-label="Accounts Fixes Status">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Required Fix</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1) Parent / Child Account Confusion</strong></td>
+            <td>
+              Standardize to <strong>Parent Name</strong> (lookup to Accounts) everywhere.
+              Handle Parent/Child as <strong>hierarchy relationship</strong> (not separate naming).
+            </td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Deals/Contacts/Invoices should reference the same Account object.</td>
+          </tr>
+
+          <tr>
+            <td><strong>2) Account Type–Based Dependencies</strong></td>
+            <td>
+              When <strong>Account Type = X</strong> → show X-specific fields; hide irrelevant fields; require required ones.
+            </td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">You confirmed this is already completed.</td>
+          </tr>
+
+          <tr>
+            <td><strong>3) Drop-down Cleanup & Overwriting</strong></td>
+            <td>
+              Overwrite/rename values safely (no duplicates), preserving reporting integrity.
+              Clean: Relationship Status, Contact Status, Lost Reasons, Industry, Subindustry, Sector, Territory, Business.
+            </td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Critical: rename existing values instead of adding new ones.</td>
+          </tr>
+
+          <tr>
+            <td><strong>4) Account Module Layout Reorganization</strong></td>
+            <td>
+              Group fields into clear sections: Identity, Classification, Territory & Ownership, Operational/Type-Specific.
+            </td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Type-specific blocks should be driven by dependency rules.</td>
+          </tr>
+
+          <tr>
+            <td><strong>5) Account Hierarchy Logic</strong></td>
+            <td>
+              Ensure hierarchy is relationship-based only; confirm reporting roll-up works correctly.
+            </td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">No separate “parent/child naming” fields in other modules.</td>
+          </tr>
+
+          <tr>
+            <td><strong>6) Dependency Structure Like Contacts</strong></td>
+            <td>
+              Dependencies must be managed at <strong>module level</strong>:
+              <ul>
+                <li>If Account Type = X → Show Y fields</li>
+                <li>If Account Type = Y → Require Z fields</li>
+                <li>Hide irrelevant fields across the module</li>
+              </ul>
+            </td>
+            <td><span class="badge b-warn">Pending</span></td>
+            <td class="muted">Needs clarification on exact rules per Account Type.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="note">
+        Status meaning: <span class="badge b-ok">Done</span> / <span class="badge b-warn">Pending</span> / <span class="badge b-info">Decision Needed</span>
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="num">3</span> Clarification for #6 — What Exactly Should Be There</h2>
+      <p class="muted">
+        Based on Julie’s “Contacts-style dependencies”, #6 usually means a single dependency matrix that the module enforces (not just layout grouping).
+      </p>
+
+      <ul>
+        <li>
+          <strong>Module-level rule set (matrix):</strong> For each Account Type, define:
+          <ul>
+            <li><strong>SHOW</strong> fields</li>
+            <li><strong>REQUIRE</strong> fields</li>
+            <li><strong>HIDE</strong> fields</li>
+          </ul>
+        </li>
+        <li><strong>Rule trigger:</strong> Account Type change should immediately re-evaluate visibility + requiredness.</li>
+        <li><strong>Validation:</strong> Required fields must block save when missing (same behavior as Contacts).</li>
+        <li>
+          <strong>Data handling decision:</strong> When changing Account Type:
+          <ul>
+            <li>Keep old type-specific values but hide them, or</li>
+            <li>Clear them automatically (risky for data history)</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="callout">
+        <h3>What you can paste as “Need from Business”</h3>
+        <p>
+          Provide the “SHOW / REQUIRE / HIDE” list per Account Type (Café Lines, Pharmaceutical Client, Venue, Association, Vendor, In-House Caterer).
+          Once that is confirmed, module-level dependencies can be finalized and tested.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <h2>Final Checklist</h2>
+      <ul class="checklist">
+        <li><span class="label">Complete:</span> Standard Parent Name lookup across modules (no naming confusion)</li>
+        <li><span class="label">Complete:</span> Dropdown overwrite cleanup (no duplicates; reporting preserved)</li>
+        <li><span class="label">Complete:</span> Layout reorganized into logical sections</li>
+        <li><span class="label">Complete:</span> Hierarchy handled via relationship + reporting roll-up</li>
+        <li><span class="label">Pending:</span> Module-level dependency matrix like Contacts (SHOW/REQUIRE/HIDE per Account Type)</li>
+      </ul>
+
+      <p class="note">
+        Once #6 matrix is defined, we can mark Accounts module as fully compliant with Julie’s dependency structure expectation.
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

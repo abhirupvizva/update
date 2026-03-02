@@ -38,6 +38,25 @@
       margin: 0 auto;
       padding: 28px 18px 52px;
     }
+    .topnav{
+      display:flex;
+      justify-content:flex-end;
+      margin-bottom: 14px;
+    }
+    .next-btn{
+      display:inline-block;
+      text-decoration:none;
+      background: var(--accent);
+      color:#fff;
+      border:1px solid #1d4ed8;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .next-btn:hover{
+      background:#1d4ed8;
+    }
     header{
       border-bottom: 1px solid var(--border);
       padding-bottom: 16px;
@@ -206,6 +225,9 @@
 
 <body>
   <div class="container">
+    <div class="topnav">
+      <a class="next-btn" href="/update1.html">Next: Account Module Fixes</a>
+    </div>
     <header>
       <h1>Contact + Accounts – Sprint 1 Update (Field-by-Field)</h1>
       <p class="subtitle">
