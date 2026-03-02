@@ -1,3 +1,5 @@
-title: udpate bedrock
+title: update bedrock
 description: Static site powered by Jekyll
 theme: minima
+url: "https://abhirupvizva.github.io"
+baseurl: "/update"
