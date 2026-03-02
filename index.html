@@ -3,220 +3,468 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Implementation Summary and Completion Confirmation</title>
+  <title>Contact + Accounts – Sprint 1 Update (Field-by-Field)</title>
   <style>
-    :root {
-      --text: #111827;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --bg: #ffffff;
-      --card: #f9fafb;
-      --accent: #2563eb;
+    :root{
+      --text:#111827;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --bg:#ffffff;
+      --card:#f9fafb;
+      --accent:#2563eb;
+
+      --ok:#065f46;
+      --okbg:#ecfdf5;
+      --okbd:#a7f3d0;
+
+      --warn:#92400e;
+      --warnbg:#fffbeb;
+      --warnbd:#fcd34d;
+
+      --info:#1e40af;
+      --infobg:#eff6ff;
+      --infobd:#bfdbfe;
     }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.5;
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.5;
     }
-    .container {
-      max-width: 920px;
+    .container{
+      max-width: 980px;
       margin: 0 auto;
-      padding: 28px 18px 48px;
+      padding: 28px 18px 52px;
     }
-    header {
+    header{
       border-bottom: 1px solid var(--border);
       padding-bottom: 16px;
       margin-bottom: 22px;
     }
-    h1 {
+    h1{
       font-size: 22px;
       margin: 0 0 6px;
       letter-spacing: -0.2px;
     }
-    .subtitle {
+    .subtitle{
       margin: 0;
       color: var(--muted);
       font-size: 14px;
     }
-    section {
+
+    section{
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 18px 16px;
       margin: 14px 0;
     }
-    h2 {
+    h2{
       font-size: 16px;
       margin: 0 0 10px;
-      display: flex;
-      gap: 10px;
+      display:flex;
+      gap:10px;
       align-items: baseline;
     }
-    .num {
+    .num{
       font-weight: 700;
       color: var(--accent);
       min-width: 2.2ch;
     }
-    ul {
-      margin: 10px 0 0;
-      padding-left: 18px;
+
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      border-radius:999px;
+      padding:6px 10px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 4px 6px 0 0;
+      white-space: nowrap;
     }
-    li { margin: 6px 0; }
-    .note {
+    .pill strong{ color: var(--text); }
+
+    .callout{
+      border-radius: 12px;
+      padding: 12px 12px;
+      border: 1px solid var(--infobd);
+      background: var(--infobg);
+      margin-top: 12px;
+    }
+    .callout h3{
+      margin:0 0 6px;
+      font-size: 13px;
+      color: var(--info);
+    }
+    .callout p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .statusrow{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .statusbox{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 12px;
+    }
+    .statusbox h3{
+      margin:0 0 6px;
+      font-size: 13px;
+    }
+    .statusbox p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .badge{
+      display:inline-block;
+      font-weight:700;
+      font-size:12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .b-ok{ color: var(--ok); background: var(--okbg); border-color: var(--okbd); }
+    .b-warn{ color: var(--warn); background: var(--warnbg); border-color: var(--warnbd); }
+    .b-info{ color: var(--info); background: var(--infobg); border-color: var(--infobd); }
+
+    ul{ margin: 10px 0 0; padding-left: 18px; }
+    li{ margin: 6px 0; }
+
+    .table{
+      width:100%;
+      border-collapse: collapse;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      overflow:hidden;
+      margin-top: 12px;
+    }
+    .table th, .table td{
+      text-align:left;
+      padding:10px 10px;
+      border-bottom:1px solid var(--border);
+      font-size: 13px;
+      vertical-align: top;
+    }
+    .table th{
+      background:#f3f4f6;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .2px;
+      text-transform: uppercase;
+    }
+    .table tr:last-child td{ border-bottom:none; }
+
+    .note{
       color: var(--muted);
       font-size: 13px;
       margin-top: 10px;
     }
-    .rule {
-      background: #ffffff;
-      border: 1px dashed var(--border);
-      border-radius: 10px;
-      padding: 12px 12px;
-      margin-top: 12px;
-    }
-    .rule p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    footer {
+
+    footer{
       margin-top: 18px;
       border-top: 1px solid var(--border);
       padding-top: 16px;
     }
-    .checklist {
-      display: grid;
+    .checklist{
+      display:grid;
       gap: 8px;
       margin: 10px 0 0;
       padding: 0;
       list-style: none;
     }
-    .checklist li {
-      background: #ffffff;
-      border: 1px solid var(--border);
+    .checklist li{
+      background:#fff;
+      border:1px solid var(--border);
       border-radius: 10px;
       padding: 10px 12px;
     }
-    .status {
+    .label{
       font-weight: 700;
-      color: #065f46;
+      color: var(--text);
     }
+    .muted{ color: var(--muted); }
   </style>
 </head>
+
 <body>
   <div class="container">
     <header>
-      <h1>Implementation Summary and Completion Confirmation</h1>
+      <h1>Contact + Accounts – Sprint 1 Update (Field-by-Field)</h1>
       <p class="subtitle">
-        This document outlines what has been implemented based on prior discussions and confirms completion of all agreed items.
+        Sprint 1 status update covering Contact fields + Accounts dropdowns/dependencies, with environment notes (Sandbox vs Main CRM).
       </p>
+      <div>
+        <span class="pill"><strong>Sprint:</strong> Contact Sprint 1</span>
+        <span class="pill"><strong>Environments:</strong> Sandbox + Main CRM</span>
+        <span class="pill"><strong>Status:</strong> Dropdowns + Required fields</span>
+      </div>
     </header>
 
     <section>
-      <h2><span class="num">1</span> Cascade Structure (Deal Module)</h2>
-      <p>We have finalized the cascading structure inside the Deal module exactly as discussed.</p>
-      <p>The flow now works as:</p>
-      <ul>
-        <li><strong>Category</strong> → <strong>Subcategory</strong> → <strong>Base Service</strong> → <strong>Flavor / Enhancement</strong></li>
-      </ul>
-      <ul>
-        <li>Each level properly controls the next level.</li>
-        <li>The dependency chain ends at Flavor / Enhancement as a multi-select field.</li>
-        <li>There are no duplicate service groups anymore.</li>
-        <li>A la carte, add-ons, and other services are now merged into the main category hierarchy.</li>
-        <li>All legacy and redundant structures have been removed.</li>
-      </ul>
+      <h2><span class="num">1</span> Overall Progress Summary</h2>
 
-      <div class="rule">
-        <p><strong>Freshsales dependency constraints addressed:</strong></p>
-        <p>A dependent field can only have one controlling field. Multi-select cannot act as a controlling field, so the cascade correctly ends at Flavor / Enhancement.</p>
+      <div class="statusrow">
+        <div class="statusbox">
+          <h3>Dropdowns <span class="badge b-ok">Done</span></h3>
+          <p>
+            All dropdowns are completed at this point of time (Contacts + Accounts as applicable).
+          </p>
+        </div>
+
+        <div class="statusbox">
+          <h3>Contacts required fields <span class="badge b-ok">Done</span></h3>
+          <p>
+            All required fields are implemented as per Sprint 1.
+          </p>
+        </div>
+
+        <div class="statusbox">
+          <h3>Accounts (new dropdowns + dependencies) <span class="badge b-ok">Done in Main CRM</span></h3>
+          <p>
+            Accounts configuration is implemented in the <strong>Main CRM</strong> (not in sandbox) because the sandbox does not match the Main CRM build.
+            We validated that the earlier built logic is present in Main CRM.
+            If anything is missing in Main CRM, please let us know and we will update/add it.
+          </p>
+        </div>
+
+        <div class="statusbox">
+          <h3>Remaining dependency <span class="badge b-warn">Pending</span></h3>
+          <p>
+            <strong>GC / Association Management → Tradeshow lookup</strong> is not completed in the sandbox because the sandbox does not have the required custom module(s).
+            This will be completed in the <strong>Main CRM</strong>.
+          </p>
+        </div>
+
+        <div class="statusbox">
+          <h3>Open question <span class="badge b-info">Needs Decision</span></h3>
+          <p>
+            <strong>Primary Account (global lookup):</strong> There is already an existing “Parent lookup” field available, which is causing confusion.
+            We need confirmation whether we should keep/implement <strong>Primary Account</strong> as separate, or rely on the existing Parent field.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <h3>Environment note</h3>
+        <p>
+          Accounts work is confirmed in <strong>Main CRM</strong>. Sandbox was not used for Accounts validation because it is not aligned with the Main CRM configuration.
+        </p>
       </div>
     </section>
 
     <section>
-      <h2><span class="num">2</span> Custom Enhancement Logic</h2>
-      <p>We’ve implemented a clean and reliable custom handling structure.</p>
-      <ul>
-        <li><strong>Flavor / Enhancement</strong> is a multi-select field.</li>
-        <li>A radio button field exists: <strong>Custom Enhancement?</strong> (Yes / No).</li>
-        <li>If <strong>Yes</strong> is selected, a <strong>Custom Enhancement Text</strong> field becomes available.</li>
-      </ul>
-      <p class="note">
-        This approach is more stable than attempting to detect custom entries within multi-select logic, and it provides stronger reporting control.
-      </p>
-      <p>We can now easily generate reports on:</p>
-      <ul>
-        <li>Deals where <strong>Custom Enhancement = Yes</strong></li>
-        <li>All custom entries for operational review</li>
-      </ul>
-    </section>
+      <h2><span class="num">2</span> Accounts Module – New Dropdowns & Dependencies</h2>
 
-    <section>
-      <h2><span class="num">3</span> Product Catalog + Plan B Structure</h2>
-      <p>We followed Plan B exactly as agreed:</p>
-      <ul>
-        <li>Product Catalog acts as the master list.</li>
-        <li>Services are maintained there.</li>
-        <li>Active/inactive status is maintained.</li>
-        <li>Placeholder pricing is stored.</li>
-        <li>The Deal module handles guided selection through field dependencies.</li>
-      </ul>
-      <p class="note">
-        We are not forcing configurator logic inside the Product Catalog, since Freshsales is not designed to behave as a full CPQ or product configurator.
-      </p>
-      <p>This provides:</p>
-      <ul>
-        <li>Better usability</li>
-        <li>Cleaner admin control</li>
-        <li>More flexibility in Deals</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2><span class="num">4</span> Pricing Structure Resolution</h2>
-      <p>We addressed the pricing limitation discussed.</p>
       <p>
-        Because Freshsales locks Deal Value when products are added, we separated pricing into two clear fields.
+        The Accounts dropdowns and dependencies are implemented in <strong>Main CRM</strong> (not sandbox) and verified against the previously built structure.
       </p>
-      <p><strong>Implemented fields:</strong></p>
+
       <ul>
-        <li><strong>Estimated Deal Value</strong> (used for system or internal reference)</li>
-        <li><strong>Proposed Amount</strong> (client-facing commercial value)</li>
+        <li><strong>Where:</strong> Main CRM (Accounts module)</li>
+        <li><strong>What:</strong> New dropdown fields + dependency/cascade behavior (as agreed)</li>
+        <li><strong>Validation approach:</strong> Confirmed the earlier build matches the Main CRM implementation</li>
+        <li><strong>Action needed (only if required):</strong> If you find anything missing in Main CRM, share the missing field/dependency and we will add/update it</li>
       </ul>
-      <p>This enables you to:</p>
-      <ul>
-        <li>Adjust pricing for negotiation</li>
-        <li>Apply discounts</li>
-        <li>Maintain margin strategy</li>
-        <li>Avoid being restricted by product auto-calculation</li>
-      </ul>
-      <p class="note">
-        This ensures sales flexibility without modifying master product pricing.
-      </p>
+
+      <div class="callout">
+        <h3>Reminder</h3>
+        <p>
+          Since sandbox isn’t matching the Main CRM for Accounts, sandbox screenshots/testing may show differences.
+          The source of truth for Accounts Sprint 1 is the <strong>Main CRM</strong>.
+        </p>
+      </div>
     </section>
 
     <section>
-      <h2><span class="num">5</span> Cleanup and Field Optimization</h2>
+      <h2><span class="num">3</span> Field-by-Field Feedback (Sprint 1 – Contacts)</h2>
+
+      <p class="note">
+        Status meaning: <span class="badge b-ok">Done</span> / <span class="badge b-warn">Pending</span> / <span class="badge b-info">Decision Needed</span>
+      </p>
+
+      <table class="table" aria-label="Field by Field Status">
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>Field / Requirement</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Global -->
+          <tr>
+            <td><span class="label">Global</span></td>
+            <td>Contact Type (required)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Dropdown values implemented as per Sprint 1.</td>
+          </tr>
+          <tr>
+            <td><span class="label">Global</span></td>
+            <td>Required fields (global)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">All required fields are set as mandatory as per spec.</td>
+          </tr>
+          <tr>
+            <td><span class="label">Global</span></td>
+            <td>Dropdowns (global + conditional)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">All dropdown lists implemented.</td>
+          </tr>
+          <tr>
+            <td><span class="label">Global</span></td>
+            <td>Primary Account (lookup, required)</td>
+            <td><span class="badge b-info">Decision Needed</span></td>
+            <td class="muted">
+              Confusion due to existing “Parent lookup” field. Need decision: keep Primary Account as separate, or reuse Parent field.
+            </td>
+          </tr>
+
+          <!-- Client -->
+          <tr>
+            <td><span class="label">Client</span></td>
+            <td>Client Role + Approval Authority + Budget Owner (required)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Conditional required fields configured.</td>
+          </tr>
+
+          <!-- Venue -->
+          <tr>
+            <td><span class="label">Venue</span></td>
+            <td>Venue Role + Approval flags (required)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Conditional required fields configured.</td>
+          </tr>
+
+          <!-- Association -->
+          <tr>
+            <td><span class="label">Association</span></td>
+            <td>Association Role + Decision Influence (required)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Conditional required fields configured.</td>
+          </tr>
+
+          <!-- Exhibit House -->
+          <tr>
+            <td><span class="label">Exhibit House</span></td>
+            <td>Role (required) + Accounts Supported (if used)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Role dropdown + conditional rules done.</td>
+          </tr>
+
+          <!-- GC / Assoc Mgmt -->
+          <tr>
+            <td><span class="label">GC / Assoc Mgmt</span></td>
+            <td>GC Role + Role Type (required)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Conditional required fields configured.</td>
+          </tr>
+          <tr>
+            <td><span class="label">GC / Assoc Mgmt</span></td>
+            <td>Associated Tradeshow Parent (lookup, required)</td>
+            <td><span class="badge b-warn">Pending</span></td>
+            <td class="muted">
+              Sandbox limitation: required custom module(s) not present. Will be implemented in Main CRM.
+            </td>
+          </tr>
+          <tr>
+            <td><span class="label">GC / Assoc Mgmt</span></td>
+            <td>Associated Tradeshow Year(s) (optional lookup)</td>
+            <td><span class="badge b-warn">Pending</span></td>
+            <td class="muted">
+              Same dependency as Tradeshow Parent. Will be implemented in Main CRM where modules exist.
+            </td>
+          </tr>
+
+          <!-- In-House Caterer -->
+          <tr>
+            <td><span class="label">In-House Caterer</span></td>
+            <td>Role + approval flags + venue responsibility (required)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Conditional required fields configured.</td>
+          </tr>
+
+          <!-- Vendor -->
+          <tr>
+            <td><span class="label">Vendor</span></td>
+            <td>Vendor Role + Service Area (required)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Conditional required fields configured.</td>
+          </tr>
+
+          <!-- Internal -->
+          <tr>
+            <td><span class="label">Internal</span></td>
+            <td>Department (required)</td>
+            <td><span class="badge b-ok">Done</span></td>
+            <td class="muted">Conditional required fields configured.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2><span class="num">4</span> Sandbox Limitation (Why GC Tradeshow lookup is pending)</h2>
       <ul>
-        <li>Duplicate and legacy fields have been removed or cleaned.</li>
-        <li>The deal layout has been structured for clarity.</li>
-        <li>Dependencies have been verified.</li>
-        <li>No orphan dropdown values remain.</li>
+        <li><strong>Reason:</strong> Sandbox does not contain the required custom module(s) to support the Tradeshow lookup.</li>
+        <li><strong>Impact:</strong> GC/Association Management tradeshow linking cannot be completed/tested fully in sandbox.</li>
+        <li><strong>Plan:</strong> Implement the Tradeshow lookup in <strong>Main CRM</strong> where the custom module(s) exist.</li>
       </ul>
+    </section>
+
+    <section>
+      <h2><span class="num">5</span> Decision Needed: Primary Account lookup vs Parent lookup</h2>
+      <p>
+        There is a confusion because an existing <strong>Parent lookup</strong> field is already present.
+        We need confirmation on the final approach for the global account relationship.
+      </p>
+
+      <div class="callout">
+        <h3>Decision options</h3>
+        <p>
+          <strong>Option A:</strong> Keep a dedicated <strong>Primary Account</strong> field (recommended for clarity and reporting).<br/>
+          <strong>Option B:</strong> Reuse the existing <strong>Parent lookup</strong> field and treat it as Primary Account (only if it maps cleanly and matches required behavior).
+        </p>
+      </div>
+
+      <p class="note">
+        Once this is confirmed, we can finalize naming/visibility so users don’t see two similar fields.
+      </p>
     </section>
 
     <footer>
       <h2>Final Confirmation</h2>
-      <p>Based on the meeting transcript and all requested changes, everything that was functionally requested has now been delivered:</p>
+      <p>Current Sprint 1 status:</p>
+
       <ul class="checklist">
-        <li><span class="status">Complete:</span> Cascade logic</li>
-        <li><span class="status">Complete:</span> Custom handling</li>
-        <li><span class="status">Complete:</span> Plan B structure</li>
-        <li><span class="status">Complete:</span> Pricing flexibility</li>
-        <li><span class="status">Complete:</span> Structural cleanup</li>
+        <li><span class="label">Complete:</span> All dropdowns implemented (Contacts + Accounts)</li>
+        <li><span class="label">Complete:</span> Contacts required fields set as mandatory</li>
+        <li><span class="label">Complete (Main CRM):</span> Accounts new dropdowns + dependencies (not validated in sandbox due to mismatch)</li>
+        <li><span class="label">Pending:</span> GC Tradeshow lookup (blocked in sandbox; will be done in Main CRM)</li>
+        <li><span class="label">Decision Needed:</span> Primary Account lookup vs existing Parent lookup</li>
       </ul>
+
+      <p class="note">
+        If you find anything missing in the <strong>Main CRM</strong> Accounts build, share the missing item and we will add/update it.
+      </p>
     </footer>
   </div>
 </body>
