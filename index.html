@@ -213,7 +213,7 @@
       </p>
       <div>
         <span class="pill"><strong>Sprint:</strong> Contact Sprint 1</span>
-        <span class="pill"><strong>Environments:</strong> Sandbox + Main CRM</span>
+        <span class="pill"><strong>Environments:</strong> Sandbox (Contacts Module) + Main CRM (Accounts Module)</span>
         <span class="pill"><strong>Status:</strong> Dropdowns + Required fields</span>
       </div>
     </header>
@@ -226,13 +226,15 @@
           <h3>Dropdowns <span class="badge b-ok">Done</span></h3>
           <p>
             All dropdowns are completed at this point of time (Contacts + Accounts as applicable).
+            This includes global dropdowns and contact-type based dropdowns.
           </p>
         </div>
 
         <div class="statusbox">
           <h3>Contacts required fields <span class="badge b-ok">Done</span></h3>
           <p>
-            All required fields are implemented as per Sprint 1.
+            All required fields are implemented as per Sprint 1 (global + conditional mandatory rules based on Contact Type).
+            Required-field validation is working as expected.
           </p>
         </div>
 
@@ -240,8 +242,10 @@
           <h3>Accounts (new dropdowns + dependencies) <span class="badge b-ok">Done in Main CRM</span></h3>
           <p>
             Accounts configuration is implemented in the <strong>Main CRM</strong> (not in sandbox) because the sandbox does not match the Main CRM build.
-            We validated that the earlier built logic is present in Main CRM.
-            If anything is missing in Main CRM, please let us know and we will update/add it.
+            We verified that the earlier built Accounts dropdown/dependency logic is present and behaving the same in Main CRM.
+          </p>
+          <p class="note">
+            If any field / dependency / dropdown value is missing in Main CRM, please share the exact field name and expected behavior, and we will update/add it immediately.
           </p>
         </div>
 
@@ -249,23 +253,24 @@
           <h3>Remaining dependency <span class="badge b-warn">Pending</span></h3>
           <p>
             <strong>GC / Association Management → Tradeshow lookup</strong> is not completed in the sandbox because the sandbox does not have the required custom module(s).
-            This will be completed in the <strong>Main CRM</strong>.
+            This will be completed in the <strong>Main CRM</strong> (custom module “Tradeshow” is available in Main CRM but not available in sandbox).
           </p>
         </div>
 
         <div class="statusbox">
           <h3>Open question <span class="badge b-info">Needs Decision</span></h3>
           <p>
-            <strong>Primary Account (global lookup):</strong> There is already an existing “Parent lookup” field available, which is causing confusion.
-            We need confirmation whether we should keep/implement <strong>Primary Account</strong> as separate, or rely on the existing Parent field.
+            <strong>Primary Account (global lookup):</strong> There is already an existing “Parent lookup” field available, which is causing confusion in the global layout.
+            We need confirmation whether we should keep/implement <strong>Primary Account</strong> as separate, or rely on the existing Parent field (and hide/rename one of them to avoid duplication).
           </p>
         </div>
       </div>
 
       <div class="callout">
-        <h3>Environment note</h3>
+        <h3>Environment note (important)</h3>
         <p>
           Accounts work is confirmed in <strong>Main CRM</strong>. Sandbox was not used for Accounts validation because it is not aligned with the Main CRM configuration.
+          Contacts work was validated in sandbox where applicable.
         </p>
       </div>
     </section>
@@ -280,15 +285,16 @@
       <ul>
         <li><strong>Where:</strong> Main CRM (Accounts module)</li>
         <li><strong>What:</strong> New dropdown fields + dependency/cascade behavior (as agreed)</li>
-        <li><strong>Validation approach:</strong> Confirmed the earlier build matches the Main CRM implementation</li>
+        <li><strong>Why not sandbox:</strong> Sandbox data + configuration is not matching the Main CRM environment, so it is not reliable for Accounts verification</li>
+        <li><strong>Validation approach:</strong> Checked the earlier-built configuration against Main CRM and confirmed the same behavior exists</li>
         <li><strong>Action needed (only if required):</strong> If you find anything missing in Main CRM, share the missing field/dependency and we will add/update it</li>
       </ul>
 
       <div class="callout">
-        <h3>Reminder</h3>
+        <h3>Source of truth</h3>
         <p>
-          Since sandbox isn’t matching the Main CRM for Accounts, sandbox screenshots/testing may show differences.
-          The source of truth for Accounts Sprint 1 is the <strong>Main CRM</strong>.
+          For Sprint 1 Accounts items, the <strong>Main CRM</strong> configuration is considered the final build.
+          Sandbox may show different picklist values or different dependency behavior due to environment mismatch.
         </p>
       </div>
     </section>
@@ -327,14 +333,14 @@
             <td><span class="label">Global</span></td>
             <td>Dropdowns (global + conditional)</td>
             <td><span class="badge b-ok">Done</span></td>
-            <td class="muted">All dropdown lists implemented.</td>
+            <td class="muted">All dropdown lists implemented and tested for selection.</td>
           </tr>
           <tr>
             <td><span class="label">Global</span></td>
             <td>Primary Account (lookup, required)</td>
             <td><span class="badge b-info">Decision Needed</span></td>
             <td class="muted">
-              Confusion due to existing “Parent lookup” field. Need decision: keep Primary Account as separate, or reuse Parent field.
+              Confusion due to existing “Parent lookup” field. Need decision: keep Primary Account as separate, or reuse Parent field (and remove/hide duplication).
             </td>
           </tr>
 
@@ -383,6 +389,7 @@
             <td><span class="badge b-warn">Pending</span></td>
             <td class="muted">
               Sandbox limitation: required custom module(s) not present. Will be implemented in Main CRM.
+              (Tradeshow custom module is available in Main CRM but not in sandbox.)
             </td>
           </tr>
           <tr>
@@ -391,6 +398,7 @@
             <td><span class="badge b-warn">Pending</span></td>
             <td class="muted">
               Same dependency as Tradeshow Parent. Will be implemented in Main CRM where modules exist.
+              (Tradeshow custom module is available in Main CRM but not in sandbox.)
             </td>
           </tr>
 
@@ -419,6 +427,10 @@
           </tr>
         </tbody>
       </table>
+
+      <p class="note">
+        If you want, we can also add a separate “Accounts field-by-field table” once you share the exact Accounts field names (so it becomes truly field-level and not just module-level).
+      </p>
     </section>
 
     <section>
@@ -456,8 +468,8 @@
 
       <ul class="checklist">
         <li><span class="label">Complete:</span> All dropdowns implemented (Contacts + Accounts)</li>
-        <li><span class="label">Complete:</span> Contacts required fields set as mandatory</li>
-        <li><span class="label">Complete (Main CRM):</span> Accounts new dropdowns + dependencies (not validated in sandbox due to mismatch)</li>
+        <li><span class="label">Complete:</span> Contacts required fields set as mandatory (global + conditional)</li>
+        <li><span class="label">Complete (Main CRM):</span> Accounts new dropdowns + dependencies (validated in Main CRM due to sandbox mismatch)</li>
         <li><span class="label">Pending:</span> GC Tradeshow lookup (blocked in sandbox; will be done in Main CRM)</li>
         <li><span class="label">Decision Needed:</span> Primary Account lookup vs existing Parent lookup</li>
       </ul>
