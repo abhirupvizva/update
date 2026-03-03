@@ -595,7 +595,7 @@
 
     let pollTimer = null;
     let SERVER_URL = 'https://messageapp-tau.vercel.app';
-    const DEFAULT_SECTION = 'general';
+    const PAGE_SECTION = 'index';
     const savedServer = localStorage.getItem('server_url');
     if (savedServer) SERVER_URL = savedServer;
     else localStorage.setItem('server_url', SERVER_URL);
@@ -622,21 +622,29 @@
       } catch {}
     }
 
-    function validateBase() {
+    function validateForSend() {
       const userName = userNameEl.value.trim();
       if (!SERVER_URL) {
         showStatus('Server URL missing');
         return null;
       }
       if (!userName) {
-        showStatus('Fill name first');
+        showStatus('Type your name to send');
         return null;
       }
-      return { serverUrl: SERVER_URL, userName, chatSection: DEFAULT_SECTION };
+      return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
+    }
+    function validateForList() {
+      if (!SERVER_URL) {
+        showStatus('Server URL missing');
+        return null;
+      }
+      const userName = userNameEl.value.trim();
+      return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
     }
 
     async function insertOne() {
-      const v = validateBase();
+      const v = validateForSend();
       if (!v) return;
       saveSettings();
       const text = messageEl.value.trim();
@@ -654,13 +662,14 @@
         }
         messageEl.value = '';
         await loadMessages();
+        location.reload();
       } catch (e) {
         showStatus(String(e));
       }
     }
 
     async function loadMessages() {
-      const v = validateBase();
+      const v = validateForList();
       if (!v) return;
       saveSettings();
       try {
@@ -674,7 +683,12 @@
           showStatus(t || ('HTTP ' + res.status));
           return;
         }
-        const docs = await res.json();
+        const raw = await res.json();
+        let docs = [];
+        if (Array.isArray(raw)) docs = raw;
+        else if (Array.isArray(raw.documents)) docs = raw.documents;
+        else if (Array.isArray(raw.docs)) docs = raw.docs;
+        else if (Array.isArray(raw.data)) docs = raw.data;
         chatBody.innerHTML = '';
         for (const d of docs) {
           const wrap = document.createElement('div');
@@ -705,6 +719,9 @@
     joinBtn.addEventListener('click', () => { if (validateBase()) { saveSettings(); loadMessages(); startPolling(); } });
     sendBtn.addEventListener('click', insertOne);
     loadSettings();
+    // auto-start listing without name
+    loadMessages();
+    startPolling();
   </script>
 </body>
 </html>

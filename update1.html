@@ -462,6 +462,7 @@
 
     let pollTimer = null;
     const DEFAULT_SECTION = 'general';
+    const PAGE_SECTION = 'update1';
     let SERVER_URL = 'https://messageapp-tau.vercel.app';
     const savedServer = localStorage.getItem('server_url');
     if (savedServer) SERVER_URL = savedServer;
@@ -489,28 +490,22 @@
       statusBox.innerText = text;
     }
 
-    function maybeAutoJoin() {
-      if (!userNameEl.value.trim()) {
-        userNameEl.value = 'Guest-' + Math.floor(Math.random() * 1000);
-      }
-      const v = validateBase();
-      if (!v) return;
-      saveSettings();
-      loadMessages();
-      startPolling();
-    }
+    function maybeAutoJoin() { }
 
-    function validateBase() {
+    function validateForSend() {
       const userName = userNameEl.value.trim();
       if (!userName) {
         showStatus('Enter your name first');
         return null;
       }
-      return { serverUrl: SERVER_URL, userName, chatSection: DEFAULT_SECTION };
+      return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
+    }
+    function validateForList() {
+      return { serverUrl: SERVER_URL, userName: userNameEl.value.trim(), chatSection: PAGE_SECTION };
     }
 
     async function insertOne() {
-      const v = validateBase();
+      const v = validateForSend();
       if (!v) return;
       saveSettings();
       const text = messageEl.value.trim();
@@ -528,13 +523,14 @@
         }
         messageEl.value = '';
         await loadMessages();
+        location.reload();
       } catch (e) {
         showStatus(String(e));
       }
     }
 
     async function loadMessages() {
-      const v = validateBase();
+      const v = validateForList();
       if (!v) return;
       saveSettings();
       try {
@@ -548,7 +544,12 @@
           showStatus(t || ('HTTP ' + res.status));
           return;
         }
-        const docs = await res.json();
+        const raw = await res.json();
+        let docs = [];
+        if (Array.isArray(raw)) docs = raw;
+        else if (Array.isArray(raw.documents)) docs = raw.documents;
+        else if (Array.isArray(raw.docs)) docs = raw.docs;
+        else if (Array.isArray(raw.data)) docs = raw.data;
         chatBody.innerHTML = '';
         for (const d of docs) {
           const wrap = document.createElement('div');
@@ -579,7 +580,8 @@
     joinBtn.addEventListener('click', () => { if (validateBase()) { saveSettings(); loadMessages(); startPolling(); } });
     sendBtn.addEventListener('click', insertOne);
     loadSettings();
-    maybeAutoJoin();
+    loadMessages();
+    startPolling();
   </script>
 </body>
 </html>
