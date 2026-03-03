@@ -207,6 +207,74 @@
     .next-btn:hover{
       background:#1d4ed8;
     }
+    .btn{
+      display:inline-block;
+      text-decoration:none;
+      background: var(--accent);
+      color:#fff;
+      border:1px solid #1d4ed8;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor:pointer;
+    }
+    .btn:hover{ background:#1d4ed8; }
+    .row{ display:flex; gap:8px; }
+    .grow{ flex:1; }
+    .chat{
+      display:grid;
+      grid-template-rows: auto 1fr auto;
+      height: 70vh;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .chat-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 12px;
+      border-bottom:1px solid var(--border);
+      background:#f3f4f6;
+    }
+    .chat-body{
+      padding:12px;
+      overflow:auto;
+      background:#f9fafb;
+    }
+    .chat-foot{
+      padding:10px 12px;
+      border-top:1px solid var(--border);
+      background:#f3f4f6;
+    }
+    .bubble{
+      max-width:64ch;
+      display:inline-block;
+      padding:8px 10px;
+      border-radius:12px;
+      margin:6px 0;
+      background:#fff;
+      border:1px solid var(--border);
+    }
+    .bubble.me{
+      background:#ecfdf5;
+      border-color:#a7f3d0;
+      align-self:flex-end;
+    }
+    .bubble .meta{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+    .settings{
+      display:grid;
+      gap:8px;
+      grid-template-columns:1fr 1fr;
+    }
+    .field{ width:100%; padding:8px; border:1px solid var(--border); border-radius:10px; font-size:13px; }
   </style>
 </head>
 
@@ -220,7 +288,6 @@
       <p class="subtitle">
         Consolidated review of the required Accounts fixes (terminology, hierarchy, dropdown cleanup, layout, and dependencies).
       </p>
-
       <div>
         <span class="pill"><strong>Module:</strong> Accounts</span>
         <span class="pill"><strong>Status:</strong> All done except module-level dependency structure (#6)</span>
@@ -235,7 +302,6 @@
         <li><strong>Done (as per your note):</strong> #2 Account Type-based fields are implemented</li>
         <li><strong>Pending / clarification needed:</strong> <span class="k">#6</span> module-level dependency rules (like Contacts)</li>
       </ul>
-
       <div class="callout">
         <h3>What’s missing (high-level)</h3>
         <p>
@@ -247,7 +313,6 @@
 
     <section>
       <h2><span class="num">2</span> Fix-by-Fix Review (with Status)</h2>
-
       <table class="table" aria-label="Accounts Fixes Status">
         <thead>
           <tr>
@@ -267,7 +332,6 @@
             <td><span class="badge b-ok">Done</span></td>
             <td class="muted">Deals/Contacts/Invoices should reference the same Account object.</td>
           </tr>
-
           <tr>
             <td><strong>2) Account Type–Based Dependencies</strong></td>
             <td>
@@ -276,7 +340,6 @@
             <td><span class="badge b-ok">Done</span></td>
             <td class="muted">You confirmed this is already completed.</td>
           </tr>
-
           <tr>
             <td><strong>3) Drop-down Cleanup & Overwriting</strong></td>
             <td>
@@ -286,7 +349,6 @@
             <td><span class="badge b-ok">Done</span></td>
             <td class="muted">Critical: rename existing values instead of adding new ones.</td>
           </tr>
-
           <tr>
             <td><strong>4) Account Module Layout Reorganization</strong></td>
             <td>
@@ -295,7 +357,6 @@
             <td><span class="badge b-ok">Done</span></td>
             <td class="muted">Type-specific blocks should be driven by dependency rules.</td>
           </tr>
-
           <tr>
             <td><strong>5) Account Hierarchy Logic</strong></td>
             <td>
@@ -304,7 +365,6 @@
             <td><span class="badge b-ok">Done</span></td>
             <td class="muted">No separate “parent/child naming” fields in other modules.</td>
           </tr>
-
           <tr>
             <td><strong>6) Dependency Structure Like Contacts</strong></td>
             <td>
@@ -320,7 +380,6 @@
           </tr>
         </tbody>
       </table>
-
       <p class="note">
         Status meaning: <span class="badge b-ok">Done</span> / <span class="badge b-warn">Pending</span> / <span class="badge b-info">Decision Needed</span>
       </p>
@@ -331,7 +390,6 @@
       <p class="muted">
         Based on Julie’s “Contacts-style dependencies”, #6 usually means a single dependency matrix that the module enforces (not just layout grouping).
       </p>
-
       <ul>
         <li>
           <strong>Module-level rule set (matrix):</strong> For each Account Type, define:
@@ -351,7 +409,6 @@
           </ul>
         </li>
       </ul>
-
       <div class="callout">
         <h3>What you can paste as “Need from Business”</h3>
         <p>
@@ -370,11 +427,159 @@
         <li><span class="label">Complete:</span> Hierarchy handled via relationship + reporting roll-up</li>
         <li><span class="label">Pending:</span> Module-level dependency matrix like Contacts (SHOW/REQUIRE/HIDE per Account Type)</li>
       </ul>
-
       <p class="note">
         Once #6 matrix is defined, we can mark Accounts module as fully compliant with Julie’s dependency structure expectation.
       </p>
     </footer>
+
+    <section>
+      <h2><span class="num">A</span> Share Feedback (Chat)</h2>
+      <div class="chat" style="margin-top:8px;">
+        <div class="chat-head">
+          <div class="row grow">
+            <input id="userName" class="field grow" placeholder="Your Name" />
+          </div>
+          <button id="joinBtn" class="btn" type="button">Join</button>
+        </div>
+        <div id="chatBody" class="chat-body"></div>
+        <div class="chat-foot">
+          <div class="row">
+            <input id="message" class="field grow" placeholder="Type a message" />
+            <button id="sendBtn" class="btn" type="button">Send</button>
+          </div>
+          <div id="statusBox" class="callout" style="display:none;margin-top:8px;"></div>
+        </div>
+      </div>
+    </section>
   </div>
+  <script>
+    const userNameEl = document.getElementById('userName');
+    const messageEl = document.getElementById('message');
+    const joinBtn = document.getElementById('joinBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const chatBody = document.getElementById('chatBody');
+    const statusBox = document.getElementById('statusBox');
+
+    let pollTimer = null;
+    const DEFAULT_SECTION = 'general';
+    let SERVER_URL = 'https://messageapp-tau.vercel.app';
+    const savedServer = localStorage.getItem('server_url');
+    if (savedServer) SERVER_URL = savedServer;
+    else localStorage.setItem('server_url', SERVER_URL);
+
+    function saveSettings() {
+      const s = {
+        userName: userNameEl.value.trim()
+      };
+      localStorage.setItem('chat_settings_update1', JSON.stringify(s));
+    }
+
+    function loadSettings() {
+      const raw = localStorage.getItem('chat_settings_update1');
+      if (!raw) return;
+      try {
+        const s = JSON.parse(raw);
+        userNameEl.value = s.userName || '';
+      } catch {}
+    }
+
+    function showStatus(text) {
+      statusBox.style.display = 'block';
+      statusBox.className = 'callout';
+      statusBox.innerText = text;
+    }
+
+    function maybeAutoJoin() {
+      if (!userNameEl.value.trim()) {
+        userNameEl.value = 'Guest-' + Math.floor(Math.random() * 1000);
+      }
+      const v = validateBase();
+      if (!v) return;
+      saveSettings();
+      loadMessages();
+      startPolling();
+    }
+
+    function validateBase() {
+      const userName = userNameEl.value.trim();
+      if (!userName) {
+        showStatus('Enter your name first');
+        return null;
+      }
+      return { serverUrl: SERVER_URL, userName, chatSection: DEFAULT_SECTION };
+    }
+
+    async function insertOne() {
+      const v = validateBase();
+      if (!v) return;
+      saveSettings();
+      const text = messageEl.value.trim();
+      if (!text) { return; }
+      try {
+        const res = await fetch(v.serverUrl + '/api/chat/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ section: v.chatSection, sender: v.userName, text })
+        });
+        if (!res.ok) {
+          const t = await res.text();
+          showStatus(t || ('HTTP ' + res.status));
+          return;
+        }
+        messageEl.value = '';
+        await loadMessages();
+      } catch (e) {
+        showStatus(String(e));
+      }
+    }
+
+    async function loadMessages() {
+      const v = validateBase();
+      if (!v) return;
+      saveSettings();
+      try {
+        const res = await fetch(v.serverUrl + '/api/chat/list', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ section: v.chatSection, limit: 200 })
+        });
+        if (!res.ok) {
+          const t = await res.text();
+          showStatus(t || ('HTTP ' + res.status));
+          return;
+        }
+        const docs = await res.json();
+        chatBody.innerHTML = '';
+        for (const d of docs) {
+          const wrap = document.createElement('div');
+          wrap.style.display = 'flex';
+          wrap.style.justifyContent = d.sender === v.userName ? 'flex-end' : 'flex-start';
+          const b = document.createElement('div');
+          b.className = 'bubble' + (d.sender === v.userName ? ' me' : '');
+          const t = document.createElement('div');
+          t.textContent = d.text || '';
+          const m = document.createElement('span');
+          m.className = 'meta';
+          m.textContent = (d.sender || 'anon') + ' • ' + (d.createdAt || '');
+          b.appendChild(t);
+          b.appendChild(m);
+          wrap.appendChild(b);
+          chatBody.appendChild(wrap);
+        }
+      } catch (e) {
+        showStatus(String(e));
+      }
+    }
+
+    function startPolling() {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(loadMessages, 3000);
+    }
+
+    joinBtn.addEventListener('click', () => { if (validateBase()) { saveSettings(); loadMessages(); startPolling(); } });
+    sendBtn.addEventListener('click', insertOne);
+    loadSettings();
+    maybeAutoJoin();
+  </script>
 </body>
 </html>

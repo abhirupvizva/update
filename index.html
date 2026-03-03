@@ -220,6 +220,70 @@
       color: var(--text);
     }
     .muted{ color: var(--muted); }
+    .btn{
+      display:inline-block;
+      text-decoration:none;
+      background: var(--accent);
+      color:#fff;
+      border:1px solid #1d4ed8;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor:pointer;
+    }
+    .btn:hover{ background:#1d4ed8; }
+    .row{ display:flex; gap:8px; }
+    .grow{ flex:1; }
+    .field{ width:100%; padding:8px; border:1px solid var(--border); border-radius:10px; font-size:13px; }
+    .chat{
+      display:grid;
+      grid-template-rows: auto 1fr auto;
+      height: 60vh;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      overflow:hidden;
+      margin-top:8px;
+    }
+    .chat-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 12px;
+      border-bottom:1px solid var(--border);
+      background:#f3f4f6;
+    }
+    .chat-body{
+      padding:12px;
+      overflow:auto;
+      background:#f9fafb;
+    }
+    .chat-foot{
+      padding:10px 12px;
+      border-top:1px solid var(--border);
+      background:#f3f4f6;
+    }
+    .bubble{
+      max-width:64ch;
+      display:inline-block;
+      padding:8px 10px;
+      border-radius:12px;
+      margin:6px 0;
+      background:#fff;
+      border:1px solid var(--border);
+    }
+    .bubble.me{
+      background:#ecfdf5;
+      border-color:#a7f3d0;
+      align-self:flex-end;
+    }
+    .bubble .meta{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      margin-top:4px;
+    }
   </style>
 </head>
 
@@ -500,6 +564,147 @@
         If you find anything missing in the <strong>Main CRM</strong> Accounts build, share the missing item and we will add/update it.
       </p>
     </footer>
+    
+    <section>
+      <h2><span class="num">A</span> Share Feedback (Chat)</h2>
+      <div class="chat">
+        <div class="chat-head">
+          <div class="row grow">
+            <input id="userName" class="field grow" placeholder="Your Name" />
+          </div>
+          <button id="joinBtn" class="btn" type="button">Join</button>
+        </div>
+        <div id="chatBody" class="chat-body"></div>
+        <div class="chat-foot">
+          <div class="row">
+            <input id="message" class="field grow" placeholder="Type a message" />
+            <button id="sendBtn" class="btn" type="button">Send</button>
+          </div>
+          <div id="statusBox" class="callout" style="display:none;margin-top:8px;"></div>
+        </div>
+      </div>
+    </section>
   </div>
+  <script>
+    const userNameEl = document.getElementById('userName');
+    const messageEl = document.getElementById('message');
+    const joinBtn = document.getElementById('joinBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const chatBody = document.getElementById('chatBody');
+    const statusBox = document.getElementById('statusBox');
+
+    let pollTimer = null;
+    let SERVER_URL = 'https://messageapp-tau.vercel.app';
+    const DEFAULT_SECTION = 'general';
+    const savedServer = localStorage.getItem('server_url');
+    if (savedServer) SERVER_URL = savedServer;
+    else localStorage.setItem('server_url', SERVER_URL);
+
+    function showStatus(text) {
+      statusBox.style.display = 'block';
+      statusBox.className = 'callout';
+      statusBox.innerText = text;
+    }
+
+    function saveSettings() {
+      const s = {
+        userName: userNameEl.value.trim()
+      };
+      localStorage.setItem('chat_settings_index', JSON.stringify(s));
+    }
+
+    function loadSettings() {
+      const raw = localStorage.getItem('chat_settings_index');
+      if (!raw) return;
+      try {
+        const s = JSON.parse(raw);
+        userNameEl.value = s.userName || '';
+      } catch {}
+    }
+
+    function validateBase() {
+      const userName = userNameEl.value.trim();
+      if (!SERVER_URL) {
+        showStatus('Server URL missing');
+        return null;
+      }
+      if (!userName) {
+        showStatus('Fill name first');
+        return null;
+      }
+      return { serverUrl: SERVER_URL, userName, chatSection: DEFAULT_SECTION };
+    }
+
+    async function insertOne() {
+      const v = validateBase();
+      if (!v) return;
+      saveSettings();
+      const text = messageEl.value.trim();
+      if (!text) return;
+      try {
+        const res = await fetch(v.serverUrl + '/api/chat/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ section: v.chatSection, sender: v.userName, text })
+        });
+        if (!res.ok) {
+          const t = await res.text();
+          showStatus(t || ('HTTP ' + res.status));
+          return;
+        }
+        messageEl.value = '';
+        await loadMessages();
+      } catch (e) {
+        showStatus(String(e));
+      }
+    }
+
+    async function loadMessages() {
+      const v = validateBase();
+      if (!v) return;
+      saveSettings();
+      try {
+        const res = await fetch(v.serverUrl + '/api/chat/list', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ section: v.chatSection, limit: 200 })
+        });
+        if (!res.ok) {
+          const t = await res.text();
+          showStatus(t || ('HTTP ' + res.status));
+          return;
+        }
+        const docs = await res.json();
+        chatBody.innerHTML = '';
+        for (const d of docs) {
+          const wrap = document.createElement('div');
+          wrap.style.display = 'flex';
+          wrap.style.justifyContent = d.sender === v.userName ? 'flex-end' : 'flex-start';
+          const b = document.createElement('div');
+          b.className = 'bubble' + (d.sender === v.userName ? ' me' : '');
+          const t = document.createElement('div');
+          t.textContent = d.text || '';
+          const m = document.createElement('span');
+          m.className = 'meta';
+          m.textContent = (d.sender || 'anon') + ' • ' + (d.createdAt || '');
+          b.appendChild(t);
+          b.appendChild(m);
+          wrap.appendChild(b);
+          chatBody.appendChild(wrap);
+        }
+      } catch (e) {
+        showStatus(String(e));
+      }
+    }
+
+    function startPolling() {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(loadMessages, 3000);
+    }
+
+    joinBtn.addEventListener('click', () => { if (validateBase()) { saveSettings(); loadMessages(); startPolling(); } });
+    sendBtn.addEventListener('click', insertOne);
+    loadSettings();
+  </script>
 </body>
 </html>
