@@ -198,34 +198,60 @@ footer{
 <section>
   <h2>Service Structure – Final Approach <span class="badge b-info">Proposed Implementation</span></h2>
 
-  <p>
-    As Per Yesterday's Discussion This Is What We can Do For Services Module, the requirement is to allow multiple categories
-    and multiple services inside a single Deal using dropdown selections only,
-    while maintaining the same cascade logic.
-  </p>
-
-  <p><strong>Approved Approach – Subform-Based Service Rows</strong></p>
-
+  <p><strong>How It Works</strong></p>
+  <p>Inside the Deal layout, we create predefined service sections:</p>
   <ul>
-    <li>Create a Subform inside the Deal module.</li>
-    <li>Each row will contain: Category → Subcategory → Base Service → Flavor.</li>
-    <li>User can click <strong>“Add Row”</strong> to add additional services.</li>
-    <li>Unlimited services can be added within the Deal.</li>
+    <li>Service Block 1
+      <ul>
+        <li>Category 1 (Dropdown)</li>
+        <li>Subcategory 1 (Dependent Dropdown)</li>
+        <li>Base Service 1 (Dependent Dropdown)</li>
+        <li>Flavor 1 (Dependent Dropdown)</li>
+      </ul>
+    </li>
+    <li>Service Block 2
+      <ul>
+        <li>Category 2</li>
+        <li>Subcategory 2</li>
+        <li>Base Service 2</li>
+        <li>Flavor 2</li>
+      </ul>
+    </li>
+    <li>Continue up to a fixed number (e.g., 6 or 9).</li>
+    <li>Each block has its own dependency mapping.</li>
   </ul>
 
-  <p>
-    This approach fully supports multiple categories and multiple services.
-    Each service row maintains its own independent cascade logic, ensuring
-    dropdown control without requiring manual typing.
-  </p>
+  <p><strong>Why This Is Fully Doable</strong></p>
+  <ul>
+    <li>Freshsales supports multiple dropdown fields</li>
+    <li>Field dependencies per field</li>
+    <li>Conditional visibility</li>
+    <li>Required field rules per block</li>
+    <li>There is no automation required. Everything is native configuration.</li>
+  </ul>
 
-  <p class="note">
-    Important clarification: Freshsales does not support a nested expandable
-    interface (Category → expandable Services grouped underneath it).
-    The structure will be flat per row, but functionally complete and fully reportable.
-  </p>
+  <p><strong>How To Keep It Clean</strong></p>
+  <ul>
+    <li>Show Service Block 2 only if Service Block 1 Category is selected.</li>
+    <li>Show Service Block 3 only if Block 2 is used.</li>
+    <li>This prevents layout clutter.</li>
+  </ul>
 
-</section>
+  <p><strong>Pros</strong></p>
+  <ul>
+    <li>100% dropdown based</li>
+    <li>Same cascade logic repeated</li>
+    <li>Very stable</li>
+    <li>Clean reporting (each block is a fixed field)</li>
+    <li>No API complexity</li>
+  </ul>
+
+  <p><strong>Limitations</strong></p>
+  <ul>
+    <li>Maximum number must be predefined.</li>
+    <li>If one deal needs 12 services but we built 6, expansion is required.</li>
+  </ul>
+
 
 <section>
   <h2>Product Catalog Pricing Decision <span class="badge b-warn">Pending</span></h2>
