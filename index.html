@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CRM Update – Detailed Status & Pending Items</title>
+<title>CRM Update – Detailed Status & Service Structure Discussion</title>
 
 <style>
 :root{
@@ -190,134 +190,76 @@ footer{
 </div>
 
 <header>
-  <h1>CRM Update – Detailed Meeting Follow-Up</h1>
-  <p class="subtitle">Clear explanation of completed items and reasons for pending items.</p>
+  <h1>CRM Update – Service Structure & Pending Items Meeting Date - 03-03-2026</h1>
+  <p class="subtitle">Updated explanation following the latest service discussion.</p>
 </header>
 
 
 <section>
-  <h2>Product Catalog Pricing vs Manual Deal Value <span class="badge b-warn">Decision Pending</span></h2>
+  <h2>Service Structure – Final Approach <span class="badge b-info">Proposed Implementation</span></h2>
 
   <p>
-    The Product Catalog pricing logic is currently active. However, before removing it,
-    we need a clearly defined alternative for dynamic pricing behavior.
+    As Per Yesterday's Discussion This Is What We can Do For Services Module, the requirement is to allow multiple categories
+    and multiple services inside a single Deal using dropdown selections only,
+    while maintaining the same cascade logic.
   </p>
 
+  <p><strong>Approved Approach – Subform-Based Service Rows</strong></p>
+
   <ul>
-    <li>If Product Catalog is removed without a replacement, dynamic price calculation will stop.</li>
-    <li>Manual Deal Value allows flexibility but removes automation.</li>
-    <li>Current integrations and reporting depend on structured pricing logic.</li>
+    <li>Create a Subform inside the Deal module.</li>
+    <li>Each row will contain: Category → Subcategory → Base Service → Flavor.</li>
+    <li>User can click <strong>“Add Row”</strong> to add additional services.</li>
+    <li>Unlimited services can be added within the Deal.</li>
   </ul>
 
+  <p>
+    This approach fully supports multiple categories and multiple services.
+    Each service row maintains its own independent cascade logic, ensuring
+    dropdown control without requiring manual typing.
+  </p>
+
   <p class="note">
-    This item is pending because removing Product Catalog impacts pricing flow, reporting accuracy,
-    and potential API integrations. A replacement strategy must be finalized first.
+    Important clarification: Freshsales does not support a nested expandable
+    interface (Category → expandable Services grouped underneath it).
+    The structure will be flat per row, but functionally complete and fully reportable.
+  </p>
+
+</section>
+
+<section>
+  <h2>Product Catalog Pricing Decision <span class="badge b-warn">Pending</span></h2>
+  <p>
+    Since dynamic pricing is no longer required and users will manually enter Deal Value,
+    the Product Catalog can be removed. However, this should only be done after confirming
+    that no integrations or reports depend on it.
   </p>
 </section>
 
 
 <section>
-  <h2>AM / PM Service Flag – Schedule Overrides <span class="badge b-ok">Completed</span></h2>
-
-  <ul>
-    <li>AM/PM service indicator implemented.</li>
-    <li>Allows better operational clarity during scheduling.</li>
-    <li>No dependency or integration impact.</li>
-  </ul>
-</section>
-
-
-<section>
-  <h2>Two Account Fields Confusion <span class="badge b-warn">Requires Structural Confirmation</span></h2>
-
+  <h2>Account Field Clarification <span class="badge b-warn">Requires Confirmation</span></h2>
   <p>
-    There are two account references visible across modules, which creates user confusion.
-  </p>
-
-  <ul>
-    <li>We must confirm which native Account lookup is the system source of truth.</li>
-    <li>Duplicate account references can create reporting inconsistencies.</li>
-    <li>API integrations may reference one specific internal field.</li>
-  </ul>
-
-  <p class="note">
-    This item is pending because changes to Account lookups affect Deals, Contacts, Reports,
-    and integrations. A controlled validation is required before modifying.
+    The correct native Account lookup must be validated to avoid duplicate account references.
   </p>
 </section>
 
 
 <section>
-  <h2>Deal ID Auto-Population to Custom Field <span class="badge b-info">Platform Limitation</span></h2>
-
+  <h2>Deal ID Auto-Population <span class="badge b-info">Platform Limitation</span></h2>
   <p>
-    We attempted multiple technical solutions:
-  </p>
-
-  <ul>
-    <li>Workflow automation triggers</li>
-    <li>Webhooks</li>
-  </ul>
-
-  <p>
-    However, Freshsales does not expose the system-generated Deal ID
-    during the same transaction cycle.
-  </p>
-
-  <ul>
-    <li>Workflow does not provide the ID immediately.</li>
-    <li>Webhook response does not return the usable Deal ID for internal update.</li>
-  </ul>
-
-  <p class="note">
-    This is a Freshsales platform limitation. Currently, the only reliable option is manual entry.
-  </p>
-</section>
-
-
-<section>
-  <h2>Multiple Services Structure (Up to 9 Blocks) <span class="badge b-warn">Requires Structured Build</span></h2>
-
-  <p>
-    Supporting up to 9 service blocks requires careful planning.
-  </p>
-
-  <ul>
-    <li>Each block requires proper dependency mapping.</li>
-    <li>Field visibility must remain stable.</li>
-    <li>Price calculations must remain accurate.</li>
-    <li>System performance must not degrade.</li>
-  </ul>
-
-  <p class="note">
-    This is pending because implementing multiple dynamic blocks needs structured layout design
-    and careful testing before deployment.
-  </p>
-</section>
-
-
-<section>
-  <h2>Flavor / Enhancement Consolidation <span class="badge b-info">Awaiting Final Approval</span></h2>
-
-  <ul>
-    <li>Dependency cleanup completed.</li>
-    <li>Field consolidation mostly completed.</li>
-    <li>Remaining enhancement fields still visible.</li>
-  </ul>
-
-  <p class="note">
-    Final removal depends on confirmation from Julie to ensure no operational process is impacted.
+    Webhooks and workflows were tested, but Freshsales does not expose the generated Deal ID
+    during the same save transaction. This cannot be automated at this time.
   </p>
 </section>
 
 
 <footer>
-  <h2>Overall Summary</h2>
+  <h2>Overall Direction</h2>
   <ul>
-    <li>Operational improvements implemented where possible.</li>
-    <li>Structural decisions pending where system-wide impact exists.</li>
-    <li>Platform limitation identified clearly for Deal ID automation.</li>
-    <li>No changes delayed without valid technical or structural reason.</li>
+    <li>Dropdown-only service structure is achievable.</li>
+    <li>Nested dynamic UI grouping is not supported.</li>
+    <li>Subform or Custom Module are the two realistic approaches.</li>
   </ul>
 </footer>
 
