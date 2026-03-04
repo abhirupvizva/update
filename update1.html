@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Accounts Module – Fixes Review + Status</title>
+  <title>CRM Configuration Update – Final Completion</title>
   <style>
     :root{
       --text:#111827;
@@ -16,38 +16,33 @@
       --ok:#065f46;
       --okbg:#ecfdf5;
       --okbd:#a7f3d0;
-
-      --warn:#92400e;
-      --warnbg:#fffbeb;
-      --warnbd:#fcd34d;
-
-      --info:#1e40af;
-      --infobg:#eff6ff;
-      --infobd:#bfdbfe;
     }
 
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
       color:var(--text);
       background:var(--bg);
-      line-height:1.5;
+      line-height:1.6;
     }
+
     .container{
       max-width: 980px;
       margin: 0 auto;
       padding: 28px 18px 52px;
     }
+
     header{
       border-bottom: 1px solid var(--border);
       padding-bottom: 16px;
       margin-bottom: 22px;
     }
+
     h1{
       font-size: 22px;
       margin: 0 0 6px;
-      letter-spacing: -0.2px;
     }
+
     .subtitle{
       margin: 0;
       color: var(--muted);
@@ -59,35 +54,13 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 18px 16px;
-      margin: 14px 0;
+      margin: 16px 0;
     }
+
     h2{
       font-size: 16px;
       margin: 0 0 10px;
-      display:flex;
-      gap:10px;
-      align-items: baseline;
     }
-    .num{
-      font-weight: 700;
-      color: var(--accent);
-      min-width: 2.2ch;
-    }
-
-    .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      border-radius:999px;
-      padding:6px 10px;
-      border:1px solid var(--border);
-      background:#fff;
-      font-size: 12px;
-      color: var(--muted);
-      margin: 4px 6px 0 0;
-      white-space: nowrap;
-    }
-    .pill strong{ color: var(--text); }
 
     .badge{
       display:inline-block;
@@ -95,61 +68,19 @@
       font-size:12px;
       padding: 4px 8px;
       border-radius: 999px;
-      border: 1px solid transparent;
+      border: 1px solid var(--okbd);
+      color: var(--ok);
+      background: var(--okbg);
       margin-left: 8px;
-      vertical-align: middle;
     }
-    .b-ok{ color: var(--ok); background: var(--okbg); border-color: var(--okbd); }
-    .b-warn{ color: var(--warn); background: var(--warnbg); border-color: var(--warnbd); }
-    .b-info{ color: var(--info); background: var(--infobg); border-color: var(--infobd); }
-    .b-review{ color:#6d28d9; background:#ede9fe; border-color:#c4b5fd; }
-
-    .callout{
-      border-radius: 12px;
-      padding: 12px 12px;
-      border: 1px solid var(--infobd);
-      background: var(--infobg);
-      margin-top: 12px;
-    }
-    .callout h3{
-      margin:0 0 6px;
-      font-size: 13px;
-      color: var(--info);
-    }
-    .callout p{
-      margin:0;
-      color: var(--muted);
-      font-size: 13px;
+    .b-review{
+      border-color: #c4b5fd;
+      color: #6d28d9;
+      background: #ede9fe;
     }
 
     ul{ margin: 10px 0 0; padding-left: 18px; }
-    li{ margin: 6px 0; }
-
-    .table{
-      width:100%;
-      border-collapse: collapse;
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius: 12px;
-      overflow:hidden;
-      margin-top: 12px;
-    }
-    .table th, .table td{
-      text-align:left;
-      padding:10px 10px;
-      border-bottom:1px solid var(--border);
-      font-size: 13px;
-      vertical-align: top;
-    }
-    .table th{
-      background:#f3f4f6;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-      letter-spacing: .2px;
-      text-transform: uppercase;
-    }
-    .table tr:last-child td{ border-bottom:none; }
+    li{ margin: 8px 0; }
 
     .note{
       color: var(--muted);
@@ -162,6 +93,7 @@
       border-top: 1px solid var(--border);
       padding-top: 16px;
     }
+
     .checklist{
       display:grid;
       gap: 8px;
@@ -169,26 +101,14 @@
       padding: 0;
       list-style: none;
     }
+
     .checklist li{
       background:#fff;
       border:1px solid var(--border);
       border-radius: 10px;
       padding: 10px 12px;
     }
-    .label{
-      font-weight: 700;
-      color: var(--text);
-    }
-    .muted{ color: var(--muted); }
-    .k{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 12px;
-      color: var(--text);
-      background:#f3f4f6;
-      border:1px solid var(--border);
-      padding:2px 6px;
-      border-radius: 8px;
-    }
+
     .topnav{
       display:flex;
       justify-content:flex-end;
@@ -223,14 +143,16 @@
     .btn:hover{ background:#1d4ed8; }
     .row{ display:flex; gap:8px; }
     .grow{ flex:1; }
+    .field{ width:100%; padding:8px; border:1px solid var(--border); border-radius:10px; font-size:13px; }
     .chat{
       display:grid;
       grid-template-rows: auto 1fr auto;
-      height: 70vh;
+      height: 60vh;
       background:#fff;
       border:1px solid var(--border);
       border-radius:12px;
       overflow:hidden;
+      margin-top:8px;
     }
     .chat-head{
       display:flex;
@@ -270,173 +192,87 @@
       color:var(--muted);
       margin-top:4px;
     }
-    .settings{
-      display:grid;
-      gap:8px;
-      grid-template-columns:1fr 1fr;
-    }
-    .field{ width:100%; padding:8px; border:1px solid var(--border); border-radius:10px; font-size:13px; }
   </style>
 </head>
 
 <body>
   <div class="container">
     <div class="topnav">
-      <a class="next-btn" href="update2.html" style="margin-right:8px;">Back</a>
-      <a class="next-btn" href="index.html">Next</a>
+      <a class="next-btn" href="index.html" style="margin-right:8px;">Back</a>
+      <a class="next-btn" href="update2.html">Next</a>
     </div>
+
     <header>
-      <h1>Accounts Module – Fixes Review + Status DATE - 02-03-2026</h1>
+      <h1>CRM Configuration Update – Final Completion DATE - 03-03-2026</h1>
       <p class="subtitle">
-        Consolidated review of the required Accounts fixes (terminology, hierarchy, dropdown cleanup, layout, and dependencies).
+        Summary of finalized structural updates, field handling decisions, and migration to Main CRM.
       </p>
-      <div>
-        <span class="pill"><strong>Module:</strong> Accounts</span>
-        <span class="pill"><strong>Status:</strong> All done except module-level dependency structure (#6)</span>
-        <span class="pill"><strong>Pending item:</strong> #6 “Dependencies like Contacts”</span>
-      </div>
     </header>
 
+    <!-- Section 1 -->
     <section>
-      <h2><span class="num">1</span> Overall Status Summary</h2>
+      <h2>Account Field Update <span class="badge">Completed</span></h2>
       <ul>
-        <li><strong>Done:</strong> #1 Parent/Child naming standardization, #3 dropdown overwrite cleanup, #4 layout re-org, #5 hierarchy relationship logic</li>
-        <li><strong>Done (as per your note):</strong> #2 Account Type-based fields are implemented</li>
-        <li><strong>Pending / clarification needed:</strong> <span class="k">#6</span> module-level dependency rules (like Contacts)</li>
+        <li>Renamed display label from <strong>Parent Account</strong> to <strong>Account Name</strong> in Deals module.</li>
+        <li>No changes made to native internal lookup structure.</li>
+        <li>Removed duplicate child account logic from Deals module.</li>
+        <li>Ensured only one required Account lookup field exists in Deals.</li>
       </ul>
-      <div class="callout">
-        <h3>What’s missing (high-level)</h3>
-        <p>
-          Even if type-specific sections exist in the layout, Julie’s requirement is that dependencies must be managed at the
-          <strong>module level</strong> (rules engine), not only by grouping/section visibility.
-        </p>
-      </div>
     </section>
 
+    <!-- Section 2 -->
     <section>
-      <h2><span class="num">2</span> Fix-by-Fix Review (with Status)</h2>
-      <table class="table" aria-label="Accounts Fixes Status">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Required Fix</th>
-            <th>Status</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>1) Parent / Child Account Confusion</strong></td>
-            <td>
-              Standardize to <strong>Parent Name</strong> (lookup to Accounts) everywhere.
-              Handle Parent/Child as <strong>hierarchy relationship</strong> (not separate naming).
-            </td>
-            <td><span class="badge b-ok">Done</span></td>
-            <td class="muted">Deals/Contacts/Invoices should reference the same Account object.</td>
-          </tr>
-          <tr>
-            <td><strong>2) Account Type–Based Dependencies</strong></td>
-            <td>
-              When <strong>Account Type = X</strong> → show X-specific fields; hide irrelevant fields; require required ones.
-            </td>
-            <td><span class="badge b-ok">Done</span></td>
-            <td class="muted">You confirmed this is already completed.</td>
-          </tr>
-          <tr>
-            <td><strong>3) Drop-down Cleanup & Overwriting</strong></td>
-            <td>
-              Overwrite/rename values safely (no duplicates), preserving reporting integrity.
-              Clean: Relationship Status, Contact Status, Lost Reasons, Industry, Subindustry, Sector, Territory, Business.
-            </td>
-            <td><span class="badge b-ok">Done</span></td>
-            <td class="muted">Critical: rename existing values instead of adding new ones.</td>
-          </tr>
-          <tr>
-            <td><strong>4) Account Module Layout Reorganization</strong></td>
-            <td>
-              Group fields into clear sections: Identity, Classification, Territory & Ownership, Operational/Type-Specific.
-            </td>
-            <td><span class="badge b-ok">Done</span></td>
-            <td class="muted">Type-specific blocks should be driven by dependency rules.</td>
-          </tr>
-          <tr>
-            <td><strong>5) Account Hierarchy Logic</strong></td>
-            <td>
-              Ensure hierarchy is relationship-based only; confirm reporting roll-up works correctly.
-            </td>
-            <td><span class="badge b-ok">Done</span></td>
-            <td class="muted">No separate “parent/child naming” fields in other modules.</td>
-          </tr>
-          <tr>
-            <td><strong>6) Dependency Structure Like Contacts</strong></td>
-            <td>
-              Dependencies must be managed at <strong>module level</strong>:
-              <ul>
-                <li>If Account Type = X → Show Y fields</li>
-                <li>If Account Type = Y → Require Z fields</li>
-                <li>Hide irrelevant fields across the module</li>
-              </ul>
-            </td>
-            <td><span class="badge b-warn">Pending</span></td>
-            <td class="muted">Needs clarification on exact rules per Account Type.</td>
-          </tr>
-        </tbody>
-      </table>
+      <h2>Contact Type & Invoice Logic Update <span class="badge">Completed</span></h2>
+      <ul>
+        <li>Removed <strong>Internal</strong> from Contact Type dropdown.</li>
+        <li>Updated field dependencies to hide non-applicable contact fields.</li>
+        <li>Replaced two invoice yes/no fields with single radio field:</li>
+        <li><strong>Invoice To → (Account / Exhibit House)</strong>.</li>
+        <li>Ensured one invoicing path must always be selected.</li>
+      </ul>
+    </section>
+
+    <!-- Section 3 -->
+    <section>
+      <h2>Field History Handling – Explanation <span class="badge b-review">Reviewed</span></h2>
+      <ul>
+        <li>Field history in <strong>Freshsales</strong> only tracks changes after activation and does not capture historical updates.</li>
+        <li>Several fields are connected to external <strong>API integrations</strong>, including the trade show schedule system.</li>
+        <li>Any structural change to API-connected fields requires coordination and controlled downtime.</li>
+        <li>Field history logs only value changes, not layout updates, dependency behavior, or structural hierarchy changes.</li>
+        <li>Enabling tracking across all custom fields creates unnecessary system log noise.</li>
+        <li>Native audit fields (Created By, Modified By, Created Date, Modified Date) already provide sufficient record-level visibility.</li>
+      </ul>
+
       <p class="note">
-        Status meaning: <span class="badge b-ok">Done</span> / <span class="badge b-warn">Pending</span> / <span class="badge b-info">Decision Needed</span>
+        The CRM now prevents incorrect data through proper field dependencies and structured lookups, rather than relying on audit logs to correct errors later.
       </p>
     </section>
 
+    <!-- Section 4 -->
     <section>
-      <h2><span class="num">3</span> Clarification for #6 — What Exactly Should Be There <span class="badge b-review">Reviewed</span></h2>
-      <p class="muted">
-        Based on Julie’s “Contacts-style dependencies”, #6 usually means a single dependency matrix that the module enforces (not just layout grouping).
-      </p>
+      <h2>Sandbox to Main CRM Migration <span class="badge">Completed</span></h2>
       <ul>
-        <li>
-          <strong>Module-level rule set (matrix):</strong> For each Account Type, define:
-          <ul>
-            <li><strong>SHOW</strong> fields</li>
-            <li><strong>REQUIRE</strong> fields</li>
-            <li><strong>HIDE</strong> fields</li>
-          </ul>
-        </li>
-        <li><strong>Rule trigger:</strong> Account Type change should immediately re-evaluate visibility + requiredness.</li>
-        <li><strong>Validation:</strong> Required fields must block save when missing (same behavior as Contacts).</li>
-        <li>
-          <strong>Data handling decision:</strong> When changing Account Type:
-          <ul>
-            <li>Keep old type-specific values but hide them, or</li>
-            <li>Clear them automatically (risky for data history)</li>
-          </ul>
-        </li>
+        <li>All updates validated in <strong>Sandbox</strong> environment.</li>
+        <li>Finalized configuration migrated to <strong>Main CRM</strong>.</li>
+        <li>Verified structural consistency post-migration.</li>
       </ul>
-      <div class="callout">
-        <h3>What you can paste as “Need from Business”</h3>
-        <p>
-          Provide the “SHOW / REQUIRE / HIDE” list per Account Type (Café Lines, Pharmaceutical Client, Venue, Association, Vendor, In-House Caterer).
-          Once that is confirmed, module-level dependencies can be finalized and tested.
-        </p>
-      </div>
     </section>
 
     <footer>
-      <h2>Final Checklist</h2>
+      <h2>Current CRM Status</h2>
       <ul class="checklist">
-        <li><span class="label">Complete:</span> Standard Parent Name lookup across modules (no naming confusion)</li>
-        <li><span class="label">Complete:</span> Dropdown overwrite cleanup (no duplicates; reporting preserved)</li>
-        <li><span class="label">Complete:</span> Layout reorganized into logical sections</li>
-        <li><span class="label">Complete:</span> Hierarchy handled via relationship + reporting roll-up</li>
-        <li><span class="label">Pending:</span> Module-level dependency matrix like Contacts (SHOW/REQUIRE/HIDE per Account Type)</li>
+        <li>Account naming aligned.</li>
+        <li>Contact type dropdown cleaned.</li>
+        <li>Invoice logic simplified.</li>
+        <li>Field history decision documented.</li>
+        <li>Sandbox configuration successfully replicated to Main CRM.</li>
       </ul>
-      <p class="note">
-        Once #6 matrix is defined, we can mark Accounts module as fully compliant with Julie’s dependency structure expectation.
-      </p>
     </footer>
 
     <section>
-      <h2><span class="num">A</span> Share Feedback (Chat)</h2>
-      <div class="chat" style="margin-top:8px;">
+      <h2><span class="badge">Chat</span></h2>
+      <div class="chat">
         <div class="chat-head">
           <div class="row grow">
             <input id="userName" class="field grow" placeholder="Your Name" />
@@ -463,28 +299,11 @@
     const statusBox = document.getElementById('statusBox');
 
     let pollTimer = null;
-    const DEFAULT_SECTION = 'general';
-    const PAGE_SECTION = 'update1';
     let SERVER_URL = 'https://messageapp-tau.vercel.app';
+    const PAGE_SECTION = 'update2';
     const savedServer = localStorage.getItem('server_url');
     if (savedServer) SERVER_URL = savedServer;
     else localStorage.setItem('server_url', SERVER_URL);
-
-    function saveSettings() {
-      const s = {
-        userName: userNameEl.value.trim()
-      };
-      localStorage.setItem('chat_settings_update1', JSON.stringify(s));
-    }
-
-    function loadSettings() {
-      const raw = localStorage.getItem('chat_settings_update1');
-      if (!raw) return;
-      try {
-        const s = JSON.parse(raw);
-        userNameEl.value = s.userName || '';
-      } catch {}
-    }
 
     function showStatus(text) {
       statusBox.style.display = 'block';
@@ -492,18 +311,41 @@
       statusBox.innerText = text;
     }
 
-    function maybeAutoJoin() { }
+    function saveSettings() {
+      const s = {
+        userName: userNameEl.value.trim()
+      };
+      localStorage.setItem('chat_settings_update2', JSON.stringify(s));
+    }
+
+    function loadSettings() {
+      const raw = localStorage.getItem('chat_settings_update2');
+      if (!raw) return;
+      try {
+        const s = JSON.parse(raw);
+        userNameEl.value = s.userName || '';
+      } catch {}
+    }
 
     function validateForSend() {
       const userName = userNameEl.value.trim();
+      if (!SERVER_URL) {
+        showStatus('Server URL missing');
+        return null;
+      }
       if (!userName) {
-        showStatus('Enter your name first');
+        showStatus('Type your name to send');
         return null;
       }
       return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
     }
     function validateForList() {
-      return { serverUrl: SERVER_URL, userName: userNameEl.value.trim(), chatSection: PAGE_SECTION };
+      if (!SERVER_URL) {
+        showStatus('Server URL missing');
+        return null;
+      }
+      const userName = userNameEl.value.trim();
+      return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
     }
 
     async function insertOne() {
@@ -511,7 +353,7 @@
       if (!v) return;
       saveSettings();
       const text = messageEl.value.trim();
-      if (!text) { return; }
+      if (!text) return;
       try {
         const res = await fetch(v.serverUrl + '/api/chat/send', {
           method: 'POST',

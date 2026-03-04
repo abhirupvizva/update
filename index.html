@@ -1,431 +1,471 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CRM Configuration Update – Final Completion</title>
-  <style>
-    :root{
-      --text:#111827;
-      --muted:#6b7280;
-      --border:#e5e7eb;
-      --bg:#ffffff;
-      --card:#f9fafb;
-      --accent:#2563eb;
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CRM Update – Detailed Status & Pending Items</title>
 
-      --ok:#065f46;
-      --okbg:#ecfdf5;
-      --okbd:#a7f3d0;
-    }
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --bg:#ffffff;
+  --card:#f9fafb;
+  --accent:#2563eb;
 
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      color:var(--text);
-      background:var(--bg);
-      line-height:1.6;
-    }
+  --ok:#065f46;
+  --okbg:#ecfdf5;
+  --okbd:#a7f3d0;
 
-    .container{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 28px 18px 52px;
-    }
+  --warn:#92400e;
+  --warnbg:#fffbeb;
+  --warnbd:#fcd34d;
 
-    header{
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 16px;
-      margin-bottom: 22px;
-    }
+  --info:#1e40af;
+  --infobg:#eff6ff;
+  --infobd:#bfdbfe;
+}
 
-    h1{
-      font-size: 22px;
-      margin: 0 0 6px;
-    }
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.6;
+}
 
-    .subtitle{
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
+.container{
+  max-width:1000px;
+  margin:0 auto;
+  padding:28px 20px 60px;
+}
 
-    section{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px 16px;
-      margin: 16px 0;
-    }
+header{
+  border-bottom:1px solid var(--border);
+  padding-bottom:16px;
+  margin-bottom:24px;
+}
 
-    h2{
-      font-size: 16px;
-      margin: 0 0 10px;
-    }
+h1{
+  font-size:22px;
+  margin:0 0 6px;
+}
 
-    .badge{
-      display:inline-block;
-      font-weight:700;
-      font-size:12px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--okbd);
-      color: var(--ok);
-      background: var(--okbg);
-      margin-left: 8px;
-    }
-    .b-review{
-      border-color: #c4b5fd;
-      color: #6d28d9;
-      background: #ede9fe;
-    }
+.subtitle{
+  color:var(--muted);
+  font-size:14px;
+  margin:0;
+}
 
-    ul{ margin: 10px 0 0; padding-left: 18px; }
-    li{ margin: 8px 0; }
+section{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  margin:18px 0;
+}
 
-    .note{
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 10px;
-    }
+h2{
+  font-size:16px;
+  margin:0 0 10px;
+}
 
-    footer{
-      margin-top: 18px;
-      border-top: 1px solid var(--border);
-      padding-top: 16px;
-    }
+.badge{
+  display:inline-block;
+  font-weight:700;
+  font-size:12px;
+  padding:4px 10px;
+  border-radius:999px;
+  margin-left:8px;
+}
 
-    .checklist{
-      display:grid;
-      gap: 8px;
-      margin: 10px 0 0;
-      padding: 0;
-      list-style: none;
-    }
+.b-ok{ color:var(--ok); background:var(--okbg); border:1px solid var(--okbd);}
+.b-warn{ color:var(--warn); background:var(--warnbg); border:1px solid var(--warnbd);}
+.b-info{ color:var(--info); background:var(--infobg); border:1px solid var(--infobd);}
 
-    .checklist li{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-    }
+ul{ padding-left:18px; margin-top:8px;}
+li{ margin:8px 0;}
 
-    .topnav{
-      display:flex;
-      justify-content:flex-end;
-      margin-bottom: 14px;
-    }
-    .next-btn{
-      display:inline-block;
-      text-decoration:none;
-      background: var(--accent);
-      color:#fff;
-      border:1px solid #1d4ed8;
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .next-btn:hover{
-      background:#1d4ed8;
-    }
-    .btn{
-      display:inline-block;
-      text-decoration:none;
-      background: var(--accent);
-      color:#fff;
-      border:1px solid #1d4ed8;
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor:pointer;
-    }
-    .btn:hover{ background:#1d4ed8; }
-    .row{ display:flex; gap:8px; }
-    .grow{ flex:1; }
-    .field{ width:100%; padding:8px; border:1px solid var(--border); border-radius:10px; font-size:13px; }
-    .chat{
-      display:grid;
-      grid-template-rows: auto 1fr auto;
-      height: 60vh;
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:12px;
-      overflow:hidden;
-      margin-top:8px;
-    }
-    .chat-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:10px 12px;
-      border-bottom:1px solid var(--border);
-      background:#f3f4f6;
-    }
-    .chat-body{
-      padding:12px;
-      overflow:auto;
-      background:#f9fafb;
-    }
-    .chat-foot{
-      padding:10px 12px;
-      border-top:1px solid var(--border);
-      background:#f3f4f6;
-    }
-    .bubble{
-      max-width:64ch;
-      display:inline-block;
-      padding:8px 10px;
-      border-radius:12px;
-      margin:6px 0;
-      background:#fff;
-      border:1px solid var(--border);
-    }
-    .bubble.me{
-      background:#ecfdf5;
-      border-color:#a7f3d0;
-      align-self:flex-end;
-    }
-    .bubble .meta{
-      display:block;
-      font-size:11px;
-      color:var(--muted);
-      margin-top:4px;
-    }
-  </style>
+.note{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:10px;
+}
+
+footer{
+  border-top:1px solid var(--border);
+  padding-top:16px;
+  margin-top:24px;
+}
+
+.topnav{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:14px;
+}
+.next-btn{
+  display:inline-block;
+  text-decoration:none;
+  background:var(--accent);
+  color:#fff;
+  border:1px solid #1d4ed8;
+  border-radius:10px;
+  padding:8px 12px;
+  font-size:13px;
+  font-weight:600;
+}
+.next-btn:hover{ background:#1d4ed8; }
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  background:var(--accent);
+  color:#fff;
+  border:1px solid #1d4ed8;
+  border-radius:10px;
+  padding:8px 12px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+}
+.btn:hover{ background:#1d4ed8; }
+.row{ display:flex; gap:8px; }
+.grow{ flex:1; }
+.field{ width:100%; padding:8px; border:1px solid var(--border); border-radius:10px; font-size:13px; }
+.chat{
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  height:60vh;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin-top:8px;
+}
+.chat-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  background:#f3f4f6;
+}
+.chat-body{
+  padding:12px;
+  overflow:auto;
+  background:#f9fafb;
+}
+.chat-foot{
+  padding:10px 12px;
+  border-top:1px solid var(--border);
+  background:#f3f4f6;
+}
+.bubble{
+  max-width:64ch;
+  display:inline-block;
+  padding:8px 10px;
+  border-radius:12px;
+  margin:6px 0;
+  background:#fff;
+  border:1px solid var(--border);
+}
+.bubble.me{
+  background:#ecfdf5;
+  border-color:#a7f3d0;
+  align-self:flex-end;
+}
+.bubble .meta{
+  display:block;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="topnav">
-      <a class="next-btn" href="update1.html" style="margin-right:8px;">Back</a>
-      <a class="next-btn" href="update2.html">Next</a>
-    </div>
+<div class="container">
+<div class="topnav">
+  <a class="next-btn" href="update1.html">Next</a>
+</div>
 
-    <header>
-      <h1>CRM Configuration Update – Final Completion DATE - 03-03-2026</h1>
-      <p class="subtitle">
-        Summary of finalized structural updates, field handling decisions, and migration to Main CRM.
-      </p>
-    </header>
+<header>
+  <h1>CRM Update – Detailed Meeting Follow-Up</h1>
+  <p class="subtitle">Clear explanation of completed items and reasons for pending items.</p>
+</header>
 
-    <!-- Section 1 -->
-    <section>
-      <h2>Account Field Update <span class="badge">Completed</span></h2>
-      <ul>
-        <li>Renamed display label from <strong>Parent Account</strong> to <strong>Account Name</strong> in Deals module.</li>
-        <li>No changes made to native internal lookup structure.</li>
-        <li>Removed duplicate child account logic from Deals module.</li>
-        <li>Ensured only one required Account lookup field exists in Deals.</li>
-      </ul>
-    </section>
 
-    <!-- Section 2 -->
-    <section>
-      <h2>Contact Type & Invoice Logic Update <span class="badge">Completed</span></h2>
-      <ul>
-        <li>Removed <strong>Internal</strong> from Contact Type dropdown.</li>
-        <li>Updated field dependencies to hide non-applicable contact fields.</li>
-        <li>Replaced two invoice yes/no fields with single radio field:</li>
-        <li><strong>Invoice To → (Account / Exhibit House)</strong>.</li>
-        <li>Ensured one invoicing path must always be selected.</li>
-      </ul>
-    </section>
+<section>
+  <h2>Product Catalog Pricing vs Manual Deal Value <span class="badge b-warn">Decision Pending</span></h2>
 
-    <!-- Section 3 -->
-    <section>
-      <h2>Field History Handling – Explanation <span class="badge b-review">Reviewed</span></h2>
-      <ul>
-        <li>Field history in <strong>Freshsales</strong> only tracks changes after activation and does not capture historical updates.</li>
-        <li>Several fields are connected to external <strong>API integrations</strong>, including the trade show schedule system.</li>
-        <li>Any structural change to API-connected fields requires coordination and controlled downtime.</li>
-        <li>Field history logs only value changes, not layout updates, dependency behavior, or structural hierarchy changes.</li>
-        <li>Enabling tracking across all custom fields creates unnecessary system log noise.</li>
-        <li>Native audit fields (Created By, Modified By, Created Date, Modified Date) already provide sufficient record-level visibility.</li>
-      </ul>
+  <p>
+    The Product Catalog pricing logic is currently active. However, before removing it,
+    we need a clearly defined alternative for dynamic pricing behavior.
+  </p>
 
-      <p class="note">
-        The CRM now prevents incorrect data through proper field dependencies and structured lookups, rather than relying on audit logs to correct errors later.
-      </p>
-    </section>
+  <ul>
+    <li>If Product Catalog is removed without a replacement, dynamic price calculation will stop.</li>
+    <li>Manual Deal Value allows flexibility but removes automation.</li>
+    <li>Current integrations and reporting depend on structured pricing logic.</li>
+  </ul>
 
-    <!-- Section 4 -->
-    <section>
-      <h2>Sandbox to Main CRM Migration <span class="badge">Completed</span></h2>
-      <ul>
-        <li>All updates validated in <strong>Sandbox</strong> environment.</li>
-        <li>Finalized configuration migrated to <strong>Main CRM</strong>.</li>
-        <li>Verified structural consistency post-migration.</li>
-      </ul>
-    </section>
+  <p class="note">
+    This item is pending because removing Product Catalog impacts pricing flow, reporting accuracy,
+    and potential API integrations. A replacement strategy must be finalized first.
+  </p>
+</section>
 
-    <footer>
-      <h2>Current CRM Status</h2>
-      <ul class="checklist">
-        <li>Account naming aligned.</li>
-        <li>Contact type dropdown cleaned.</li>
-        <li>Invoice logic simplified.</li>
-        <li>Field history decision documented.</li>
-        <li>Sandbox configuration successfully replicated to Main CRM.</li>
-      </ul>
-    </footer>
 
-    <section>
-      <h2><span class="badge">Chat</span></h2>
-      <div class="chat">
-        <div class="chat-head">
-          <div class="row grow">
-            <input id="userName" class="field grow" placeholder="Your Name" />
-          </div>
-          <button id="joinBtn" class="btn" type="button">Join</button>
-        </div>
-        <div id="chatBody" class="chat-body"></div>
-        <div class="chat-foot">
-          <div class="row">
-            <input id="message" class="field grow" placeholder="Type a message" />
-            <button id="sendBtn" class="btn" type="button">Send</button>
-          </div>
-          <div id="statusBox" class="callout" style="display:none;margin-top:8px;"></div>
-        </div>
+<section>
+  <h2>AM / PM Service Flag – Schedule Overrides <span class="badge b-ok">Completed</span></h2>
+
+  <ul>
+    <li>AM/PM service indicator implemented.</li>
+    <li>Allows better operational clarity during scheduling.</li>
+    <li>No dependency or integration impact.</li>
+  </ul>
+</section>
+
+
+<section>
+  <h2>Two Account Fields Confusion <span class="badge b-warn">Requires Structural Confirmation</span></h2>
+
+  <p>
+    There are two account references visible across modules, which creates user confusion.
+  </p>
+
+  <ul>
+    <li>We must confirm which native Account lookup is the system source of truth.</li>
+    <li>Duplicate account references can create reporting inconsistencies.</li>
+    <li>API integrations may reference one specific internal field.</li>
+  </ul>
+
+  <p class="note">
+    This item is pending because changes to Account lookups affect Deals, Contacts, Reports,
+    and integrations. A controlled validation is required before modifying.
+  </p>
+</section>
+
+
+<section>
+  <h2>Deal ID Auto-Population to Custom Field <span class="badge b-info">Platform Limitation</span></h2>
+
+  <p>
+    We attempted multiple technical solutions:
+  </p>
+
+  <ul>
+    <li>Workflow automation triggers</li>
+    <li>Webhooks</li>
+  </ul>
+
+  <p>
+    However, Freshsales does not expose the system-generated Deal ID
+    during the same transaction cycle.
+  </p>
+
+  <ul>
+    <li>Workflow does not provide the ID immediately.</li>
+    <li>Webhook response does not return the usable Deal ID for internal update.</li>
+  </ul>
+
+  <p class="note">
+    This is a Freshsales platform limitation. Currently, the only reliable option is manual entry.
+  </p>
+</section>
+
+
+<section>
+  <h2>Multiple Services Structure (Up to 9 Blocks) <span class="badge b-warn">Requires Structured Build</span></h2>
+
+  <p>
+    Supporting up to 9 service blocks requires careful planning.
+  </p>
+
+  <ul>
+    <li>Each block requires proper dependency mapping.</li>
+    <li>Field visibility must remain stable.</li>
+    <li>Price calculations must remain accurate.</li>
+    <li>System performance must not degrade.</li>
+  </ul>
+
+  <p class="note">
+    This is pending because implementing multiple dynamic blocks needs structured layout design
+    and careful testing before deployment.
+  </p>
+</section>
+
+
+<section>
+  <h2>Flavor / Enhancement Consolidation <span class="badge b-info">Awaiting Final Approval</span></h2>
+
+  <ul>
+    <li>Dependency cleanup completed.</li>
+    <li>Field consolidation mostly completed.</li>
+    <li>Remaining enhancement fields still visible.</li>
+  </ul>
+
+  <p class="note">
+    Final removal depends on confirmation from Julie to ensure no operational process is impacted.
+  </p>
+</section>
+
+
+<footer>
+  <h2>Overall Summary</h2>
+  <ul>
+    <li>Operational improvements implemented where possible.</li>
+    <li>Structural decisions pending where system-wide impact exists.</li>
+    <li>Platform limitation identified clearly for Deal ID automation.</li>
+    <li>No changes delayed without valid technical or structural reason.</li>
+  </ul>
+</footer>
+
+<section>
+  <h2><span class="badge b-info">Chat</span></h2>
+  <div class="chat">
+    <div class="chat-head">
+      <div class="row grow">
+        <input id="userName" class="field grow" placeholder="Your Name" />
       </div>
-    </section>
+      <button id="joinBtn" class="btn" type="button">Join</button>
+    </div>
+    <div id="chatBody" class="chat-body"></div>
+    <div class="chat-foot">
+      <div class="row">
+        <input id="message" class="field grow" placeholder="Type a message" />
+        <button id="sendBtn" class="btn" type="button">Send</button>
+      </div>
+      <div id="statusBox" class="note" style="display:none;"></div>
+    </div>
   </div>
-  <script>
-    const userNameEl = document.getElementById('userName');
-    const messageEl = document.getElementById('message');
-    const joinBtn = document.getElementById('joinBtn');
-    const sendBtn = document.getElementById('sendBtn');
-    const chatBody = document.getElementById('chatBody');
-    const statusBox = document.getElementById('statusBox');
+</section>
 
-    let pollTimer = null;
-    let SERVER_URL = 'https://messageapp-tau.vercel.app';
-    const PAGE_SECTION = 'update2';
-    const savedServer = localStorage.getItem('server_url');
-    if (savedServer) SERVER_URL = savedServer;
-    else localStorage.setItem('server_url', SERVER_URL);
+</div>
+<script>
+  const userNameEl = document.getElementById('userName');
+  const messageEl = document.getElementById('message');
+  const joinBtn = document.getElementById('joinBtn');
+  const sendBtn = document.getElementById('sendBtn');
+  const chatBody = document.getElementById('chatBody');
+  const statusBox = document.getElementById('statusBox');
 
-    function showStatus(text) {
-      statusBox.style.display = 'block';
-      statusBox.className = 'callout';
-      statusBox.innerText = text;
-    }
+  let pollTimer = null;
+  let SERVER_URL = 'https://messageapp-tau.vercel.app';
+  const PAGE_SECTION = 'index';
+  const savedServer = localStorage.getItem('server_url');
+  if (savedServer) SERVER_URL = savedServer;
+  else localStorage.setItem('server_url', SERVER_URL);
 
-    function saveSettings() {
-      const s = {
-        userName: userNameEl.value.trim()
-      };
-      localStorage.setItem('chat_settings_update2', JSON.stringify(s));
-    }
+  function showStatus(text) {
+    statusBox.style.display = 'block';
+    statusBox.className = 'note';
+    statusBox.innerText = text;
+  }
 
-    function loadSettings() {
-      const raw = localStorage.getItem('chat_settings_update2');
-      if (!raw) return;
-      try {
-        const s = JSON.parse(raw);
-        userNameEl.value = s.userName || '';
-      } catch {}
-    }
+  function saveSettings() {
+    const s = { userName: userNameEl.value.trim() };
+    localStorage.setItem('chat_settings_index', JSON.stringify(s));
+  }
+  function loadSettings() {
+    const raw = localStorage.getItem('chat_settings_index');
+    if (!raw) return;
+    try {
+      const s = JSON.parse(raw);
+      userNameEl.value = s.userName || '';
+    } catch {}
+  }
 
-    function validateForSend() {
-      const userName = userNameEl.value.trim();
-      if (!SERVER_URL) {
-        showStatus('Server URL missing');
-        return null;
+  function validateForSend() {
+    const userName = userNameEl.value.trim();
+    if (!SERVER_URL) { showStatus('Server URL missing'); return null; }
+    if (!userName) { showStatus('Type your name to send'); return null; }
+    return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
+  }
+  function validateForList() {
+    if (!SERVER_URL) { showStatus('Server URL missing'); return null; }
+    const userName = userNameEl.value.trim();
+    return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
+  }
+
+  async function insertOne() {
+    const v = validateForSend();
+    if (!v) return;
+    saveSettings();
+    const text = messageEl.value.trim();
+    if (!text) return;
+    try {
+      const res = await fetch(v.serverUrl + '/api/chat/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ section: v.chatSection, sender: v.userName, text })
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        showStatus(t || ('HTTP ' + res.status));
+        return;
       }
-      if (!userName) {
-        showStatus('Type your name to send');
-        return null;
-      }
-      return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
+      messageEl.value = '';
+      await loadMessages();
+      location.reload();
+    } catch (e) {
+      showStatus(String(e));
     }
-    function validateForList() {
-      if (!SERVER_URL) {
-        showStatus('Server URL missing');
-        return null;
-      }
-      const userName = userNameEl.value.trim();
-      return { serverUrl: SERVER_URL, userName, chatSection: PAGE_SECTION };
-    }
+  }
 
-    async function insertOne() {
-      const v = validateForSend();
-      if (!v) return;
-      saveSettings();
-      const text = messageEl.value.trim();
-      if (!text) return;
-      try {
-        const res = await fetch(v.serverUrl + '/api/chat/send', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ section: v.chatSection, sender: v.userName, text })
-        });
-        if (!res.ok) {
-          const t = await res.text();
-          showStatus(t || ('HTTP ' + res.status));
-          return;
-        }
-        messageEl.value = '';
-        await loadMessages();
-        location.reload();
-      } catch (e) {
-        showStatus(String(e));
+  async function loadMessages() {
+    const v = validateForList();
+    if (!v) return;
+    saveSettings();
+    try {
+      const res = await fetch(v.serverUrl + '/api/chat/list', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ section: v.chatSection, limit: 200 })
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        showStatus(t || ('HTTP ' + res.status));
+        return;
       }
-    }
-
-    async function loadMessages() {
-      const v = validateForList();
-      if (!v) return;
-      saveSettings();
-      try {
-        const res = await fetch(v.serverUrl + '/api/chat/list', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ section: v.chatSection, limit: 200 })
-        });
-        if (!res.ok) {
-          const t = await res.text();
-          showStatus(t || ('HTTP ' + res.status));
-          return;
-        }
-        const raw = await res.json();
-        let docs = [];
-        if (Array.isArray(raw)) docs = raw;
-        else if (Array.isArray(raw.documents)) docs = raw.documents;
-        else if (Array.isArray(raw.docs)) docs = raw.docs;
-        else if (Array.isArray(raw.data)) docs = raw.data;
-        chatBody.innerHTML = '';
-        for (const d of docs) {
-          const wrap = document.createElement('div');
-          wrap.style.display = 'flex';
-          wrap.style.justifyContent = d.sender === v.userName ? 'flex-end' : 'flex-start';
-          const b = document.createElement('div');
-          b.className = 'bubble' + (d.sender === v.userName ? ' me' : '');
-          const t = document.createElement('div');
-          t.textContent = d.text || '';
-          const m = document.createElement('span');
-          m.className = 'meta';
-          m.textContent = (d.sender || 'anon') + ' • ' + (d.createdAt || '');
-          b.appendChild(t);
-          b.appendChild(m);
-          wrap.appendChild(b);
-          chatBody.appendChild(wrap);
-        }
-      } catch (e) {
-        showStatus(String(e));
+      const raw = await res.json();
+      let docs = [];
+      if (Array.isArray(raw)) docs = raw;
+      else if (Array.isArray(raw.documents)) docs = raw.documents;
+      else if (Array.isArray(raw.docs)) docs = raw.docs;
+      else if (Array.isArray(raw.data)) docs = raw.data;
+      chatBody.innerHTML = '';
+      for (const d of docs) {
+        const wrap = document.createElement('div');
+        wrap.style.display = 'flex';
+        wrap.style.justifyContent = d.sender === v.userName ? 'flex-end' : 'flex-start';
+        const b = document.createElement('div');
+        b.className = 'bubble' + (d.sender === v.userName ? ' me' : '');
+        const t = document.createElement('div');
+        t.textContent = d.text || '';
+        const m = document.createElement('span');
+        m.className = 'meta';
+        m.textContent = (d.sender || 'anon') + ' • ' + (d.createdAt || '');
+        b.appendChild(t);
+        b.appendChild(m);
+        wrap.appendChild(b);
+        chatBody.appendChild(wrap);
       }
+    } catch (e) {
+      showStatus(String(e));
     }
+  }
 
-    function startPolling() {
-      if (pollTimer) clearInterval(pollTimer);
-      pollTimer = setInterval(loadMessages, 3000);
-    }
+  function startPolling() {
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(loadMessages, 3000);
+  }
 
-    joinBtn.addEventListener('click', () => { if (validateBase()) { saveSettings(); loadMessages(); startPolling(); } });
-    sendBtn.addEventListener('click', insertOne);
-    loadSettings();
-    loadMessages();
-    startPolling();
-  </script>
+  joinBtn.addEventListener('click', () => { saveSettings(); loadMessages(); startPolling(); });
+  sendBtn.addEventListener('click', insertOne);
+  loadSettings();
+  loadMessages();
+  startPolling();
+</script>
 </body>
 </html>
